@@ -35,6 +35,20 @@
 	
 				</tr>
 				<tr>
+					<th>Phone: </th>
+					<td align="center" colspan="3">
+						<input type="text" name="phone" size="45" value="5555555555" onfocus="this.value=''">
+					</td>
+	
+				</tr>
+				<tr>
+					<th>Credit Card: </th>
+					<td align="center" colspan="3">
+						<input type="text" name="cc" size="45" value="0000000000000000" onfocus="this.value=''">
+					</td>
+	
+				</tr>
+				<tr>
 					<th>Password: </th>
 					<td align="center" colspan="3"> 
 						<input type="password" name="password" size="45" value="password" onfocus="this.value=''">
