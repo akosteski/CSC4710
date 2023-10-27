@@ -9,11 +9,11 @@
 <title>Welcome to David Smith view</title>
 </head>
 
-<center><h1>Welcome! You have been successfully logged in</h1> </center>
+<center><h1>Welcome! You have been successfully logged in to David Smith</h1> </center>
 <body>
 	 <center>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
-		 <p> You can show all the transactions or other attributes here like balance, name of the user and others.</p>
+		 <p> You can find all the quotes a client has requested.</p>
 	 </center>
 
 </body>

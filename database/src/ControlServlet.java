@@ -109,7 +109,9 @@ public class ControlServlet extends HttpServlet {
 	    	 else if (email.equals("davidsmith@gmail.com") && password.equals("dsmith"))
 	    	 {
 				 System.out.println("Login Successful! Redirecting to David Smith Page");
-				 request.getRequestDispatcher("davidsmithview.jsp").forward(request, response);
+				 session = request.getSession();
+				 session.setAttribute("username", password);
+				 request.getRequestDispatcher("DavidSmithview.jsp").forward(request, response);
 	
 	    	 }
 	    	 else if(userDAO.isValid(email, password)) 
@@ -136,13 +138,15 @@ public class ControlServlet extends HttpServlet {
 	   	 	String adress_street = request.getParameter("adress_street"); 
 	   	 	String adress_city = request.getParameter("adress_city"); 
 	   	 	String adress_state = request.getParameter("adress_state"); 
-	   	 	String adress_zip_code = request.getParameter("adress_zip_code"); 	   	 	
+	   	 	String adress_zip_code = request.getParameter("adress_zip_code");
+	   	 	String credit = request.getParameter("cc");
+	   	 	String phone = request.getParameter("phone");
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkEmail(email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, 1000,0);
+		            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit, phone);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
