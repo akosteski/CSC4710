@@ -284,22 +284,25 @@ public class userDAO
 					            "adress_city VARCHAR(20)," + 
 					            "adress_state VARCHAR(2),"+ 
 					            "adress_zip_code VARCHAR(5),"+ 
-					            "credit VARCHAR(16) NOT NULL," +
-					            "phone VARCHAR(10) NOT NULL," +
+					            "credit VARCHAR(19) NOT NULL," +
+					            "phone VARCHAR(12) NOT NULL," +
 					            "PRIMARY KEY (email) "+"); ")
+					        
+					        ("CREATE TABLE if not exists Tree( " +
+					        		"treeID VARCHAR")
         					};
         String[] TUPLES = {("insert into User(email, firstName, lastName, password, birthday, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, credit, phone)"+
         			"values ('susie@gmail.com', 'Susie', 'Guzman', 'susie1234', '2000-06-27', '1234', 'whatever street', 'detroit', 'MI', '48202','1234123412341234', '1231231234')," +
         					
-			    			"('j@gmail.com', 'john', 'smith', 'jsmith', '1999-09-09', '1234', 'main', 'new york', 'NY', '45678', '1029384756473828', '1023945867'),"+
+			    			"('j@gmail.com', 'john', 'smith', 'jsmith', '1999-09-09', '1234', 'main', 'new york', 'NY', '45678', '1029-3847-5647-3828', '102-394-5867'),"+
 			    			
-			    			"('rey@gmail.com', 'Rey', 'Jakosalem','rey123', '2002-06-07', '1000', 'hi street', 'mama', 'MO', '12345','1234567890123456', '5555555555'),"+
+			    			"('rey@gmail.com', 'Rey', 'Jakosalem','rey123', '2002-06-07', '1000', 'hi street', 'mama', 'MO', '12345','1234-5678-9012-3456', '555-555-5555'),"+
 			    			
-			    			"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','5000500050005000', '6966966969'),"+
+			    			"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','5000-5000-5000-5000', '696-696-6969'),"+
 			    		 	
-			    			"('jo@gmail.com', 'Jo', 'Brady','jo1234', '2002-02-02', '3214','marko street', 'brat', 'DU', '54321','1890456387649872', '6748762890'),"+
+			    			"('jo@gmail.com', 'Jo', 'Brady','jo1234', '2002-02-02', '3214','marko street', 'brat', 'DU', '54321','1890-4563-8764-9872', '674-876-2890'),"+
 			    		 	
-			    			"('wallace@gmail.com', 'Wallace', 'Moore','wallace1234', '1971-06-15', '4500', 'frey street', 'sestra', 'MI', '48202','5736586746572869', '6563767849'),"+
+			    			"('wallace@gmail.com', 'Wallace', 'Moore','wallace1234', '1971-06-15', '4500', 'frey street', 'sestra', 'MI', '48202','5736-586746572869', '6563767849'),"+
 			    		 	
 			    			"('amelia@gmail.com', 'Amelia', 'Phillips','amelia1234', '2000-03-14', '1245', 'm8s street', 'baka', 'IL', '48000','4567890123456789', '6564656478'),"+
 			    			
