@@ -14,6 +14,8 @@
  
 	<body>
 	 <center>
+		 <button onclick="window.location.href='Tree.jsp';"> Request Quote
+		 </button></br></br>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> You can find quotes you've made here.</p>
 		 </center>
