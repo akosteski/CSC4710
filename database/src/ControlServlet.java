@@ -24,6 +24,7 @@ public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private userDAO userDAO = new userDAO();
 	    private quoteDAO quoteDAO = new quoteDAO();
+	    private treeDAO treeDAO = new treeDAO();
 	    private String currentUser;
 	    private HttpSession session=null;
 	    
@@ -36,6 +37,7 @@ public class ControlServlet extends HttpServlet {
 	    {
 	    	quoteDAO = new quoteDAO();
 	    	userDAO = new userDAO();
+	    	treeDAO = new treeDAO();
 	    	currentUser= "";
 	    }
 	    
@@ -71,9 +73,12 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listAll(request, response);           	
                  break;
-        	case:"/request":
+        	case "/request":
         		System.out.println("The action is: request");
         		requestQuote(request, response);
+        	case "/makeTree":
+        		System.out.println("The action is: make a tree");
+        		createTree(request, response);
                  
 	    	}
 	    }
@@ -181,6 +186,10 @@ public class ControlServlet extends HttpServlet {
 	    
 	    private void requestQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	
+	    	
+	    }
+	    
+	    private void createTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	
 	    }
 }

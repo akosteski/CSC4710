@@ -229,6 +229,7 @@ public class quoteDAO
         String[] INITIAL = { "drop table if exists Quote; ",
 					        ("CREATE TABLE if not exists Quote( " +
 					            "quoteID INTEGER NOT NULL AUTO_INCREMENT, " +
+					        	"tree_amt INTEGER DEFAULT 0, " +
 					        	"price DECIMAL(5,2) DEFAULT 100, " +
 					        	"email VARCHAR(50) NOT NULL, " +
 					            "start_time DATE NOT NULL, " +
@@ -238,8 +239,8 @@ public class quoteDAO
 					            "FOREIGN KEY (email) REFERENCES User(email)); ")
 					        
         					};
-        String[] TUPLES = {("insert into Quote(quoteID, price, start_time, end_time, status, email)" +
-        					"values (414, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com' );"
+        String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +
+        					"values (414, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com' );"
         					
     		)
 		};

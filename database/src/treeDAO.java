@@ -111,6 +111,39 @@ public class treeDAO
         return listTree;
     }
     
+    public List<tree> listQuoteTrees() throws SQLException {
+        List<tree> listQuoteTree = new ArrayList<tree>();        
+        String sql = "SELECT * FROM Tree WHERE quoteID=?";      
+        connect_func();      
+        statement = (Statement) connect.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+         
+        while (resultSet.next()) {
+            int treeID = resultSet.getInt("treeID");
+            double width = resultSet.getDouble("width");
+            double height = resultSet.getDouble("height");
+            String address = resultSet.getString("address");
+            String city = resultSet.getString("city");
+            String state = resultSet.getString("state"); 
+            String zipcode = resultSet.getString("zipcode"); 
+            double distance = resultSet.getDouble("distance");
+            String image1 = resultSet.getString("image1");
+            String image2 = resultSet.getString("image2");
+            String image3 = resultSet.getString("image3");
+            String notes = resultSet.getString("notes"); 
+            String date = resultSet.getString("date");
+            int quoteID = resultSet.getInt("quoteID");
+
+             
+            tree trees = new tree(treeID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
+            listQuoteTree.add(trees);
+            
+        }        
+        resultSet.close();
+        disconnect();        
+        return listQuoteTree;
+    }
+    
     protected void disconnect() throws SQLException {
         if (connect != null && !connect.isClosed()) {
         	connect.close();
@@ -210,7 +243,42 @@ public class treeDAO
         statement.close();
          
         return tree;
-    }    
+    }
+    
+    public tree countTree(int treeID, int quoteID) throws SQLException {
+    	tree tree = null;
+    	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "INSERT INTO Quote (tree_amt) VALUES (@count); ";
+    	
+        connect_func();
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, treeID);
+        
+         
+        ResultSet resultSet = preparedStatement.executeQuery();
+         
+        if (resultSet.next()) {
+            double width = resultSet.getDouble("width");
+            double height = resultSet.getDouble("height");
+            String address = resultSet.getString("address");
+            String city = resultSet.getString("city");
+            String state = resultSet.getString("state"); 
+            String zipcode = resultSet.getString("zipcode"); 
+            double distance = resultSet.getDouble("distance");
+            String image1 = resultSet.getString("image1");
+            String image2 = resultSet.getString("image2");
+            String image3 = resultSet.getString("image3");
+            String notes = resultSet.getString("notes"); 
+            String date = resultSet.getString("date");
+            
+            tree = new tree(treeID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
+        }
+         
+        resultSet.close();
+        statement.close();
+         
+        return tree;
+    }
     
     public void init() throws SQLException, FileNotFoundException, IOException{
     	connect_func();
