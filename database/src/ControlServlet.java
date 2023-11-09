@@ -71,6 +71,9 @@ public class ControlServlet extends HttpServlet {
                  System.out.println("The action is: list");
                  listAll(request, response);           	
                  break;
+        	case:"/request":
+        		System.out.println("The action is: request");
+        		requestQuote(request, response);
                  
 	    	}
 	    }
@@ -176,7 +179,10 @@ public class ControlServlet extends HttpServlet {
         		response.sendRedirect("login.jsp");
         	}
 	    
-	    private void request(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
+	    private void requestQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	
+	    	
+	    }
 }
 	        
 	        

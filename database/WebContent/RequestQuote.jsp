@@ -38,7 +38,7 @@
                     <td><c:out value="${tree.width}" /></td>
                     <td><c:out value="${tree.height}" /></td>
                     <td><c:out value="${tree.address} ${users.city} ${users.state} ${users.zipcode}" /></td>
-                    <td><c:out value="${tree.prox}" /></td>
+                    <td><c:out value="${tree.distance}" /></td>
                     <td><c:out value="${tree.tree_amt}" /></td>
                     <td><c:out value="${tree.image_1}" /></td>
                     <td><c:out value="${tree.image_2}" /></td>
