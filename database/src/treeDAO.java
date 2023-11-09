@@ -295,7 +295,7 @@ public class treeDAO
 					            "state VARCHAR(2) NOT NULL, "+ 
 					            "zipcode VARCHAR(5) NOT NULL, "+ 
 					            "distance DECIMAL(5,2) DEFAULT 1," + 
-					            "image1 VARCHAR(2048),"+ //maximum URL character length in 2048
+					            "image1 VARCHAR(2048),"+ //maximum URL character length is 2048
 					            "image2 VARCHAR(2048),"+ 
 					            "image3 VARCHAR(2048)," +
 					            "notes VARCHAR(500)," +
