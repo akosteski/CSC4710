@@ -23,6 +23,7 @@ import java.sql.PreparedStatement;
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
 	    private userDAO userDAO = new userDAO();
+	    private quoteDAO quoteDAO = new quoteDAO();
 	    private String currentUser;
 	    private HttpSession session=null;
 	    
@@ -33,6 +34,7 @@ public class ControlServlet extends HttpServlet {
 	    
 	    public void init()
 	    {
+	    	quoteDAO = new quoteDAO();
 	    	userDAO = new userDAO();
 	    	currentUser= "";
 	    }
@@ -55,6 +57,7 @@ public class ControlServlet extends HttpServlet {
         		break;
         	case "/initialize":
         		userDAO.init();
+        		quoteDAO.init(); //quote table
         		System.out.println("Database successfully initialized!");
         		rootPage(request,response,"");
         		break;
@@ -64,10 +67,11 @@ public class ControlServlet extends HttpServlet {
         	case "/logout":
         		logout(request,response);
         		break;
-        	 case "/list": 
+        	case "/list": 
                  System.out.println("The action is: list");
-                 listUser(request, response);           	
+                 listAll(request, response);           	
                  break;
+                 
 	    	}
 	    }
 	    catch(Exception ex) {
@@ -75,7 +79,7 @@ public class ControlServlet extends HttpServlet {
 	    	}
 	    }
         	
-	    private void listUser(HttpServletRequest request, HttpServletResponse response)
+	    private void listAll(HttpServletRequest request, HttpServletResponse response)
 	            throws SQLException, IOException, ServletException {
 	        System.out.println("listUser started: 00000000000000000000000000000000000");
 
@@ -84,6 +88,11 @@ public class ControlServlet extends HttpServlet {
 	        request.setAttribute("listUser", listUser);       
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("UserList.jsp");       
 	        dispatcher.forward(request, response);
+	        
+	        List<quote> listQuote = quoteDAO.listAllQuotes();
+	        request.setAttribute("listQuote", listQuote);
+	        RequestDispatcher dispatcher2 = request.getRequestDispatcher("QuoteList.jsp");
+	        dispatcher2.forward(request, response);
 	     
 	        System.out.println("listPeople finished: 111111111111111111111111111111111111");
 	    }
@@ -139,7 +148,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	String adress_city = request.getParameter("adress_city"); 
 	   	 	String adress_state = request.getParameter("adress_state"); 
 	   	 	String adress_zip_code = request.getParameter("adress_zip_code");
-	   	 	String credit = request.getParameter("cc");
+	   	 	String credit = request.getParameter("credit");
 	   	 	String phone = request.getParameter("phone");
 	   	 	String confirm = request.getParameter("confirmation");
 	   	 	
@@ -166,16 +175,8 @@ public class ControlServlet extends HttpServlet {
 	    	currentUser = "";
         		response.sendRedirect("login.jsp");
         	}
-	
 	    
-
-	     
-        
-	    
-	    
-	    
-	    
-	    
+	    private void request(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException
 }
 	        
 	        

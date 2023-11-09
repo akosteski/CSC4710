@@ -46,27 +46,24 @@
         </table>
         
          <table border="1" cellpadding="6">
-            <caption><h2>List of Users</h2></caption>
+            <caption><h2>List of Quotes</h2></caption>
             <tr>
-                <th>TreeID</th>
-                <th>Size</th>
-                <th>Height</th>
-                <th></th>
-                <th>Password</th>
-                <th>Birthday</th>
-                <th>Phone Number</th>
-                <th>Credit Card</th>
+                <th>ID</th>
+                <th>Price</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>User Email</th>
             </tr>
-            <c:forEach var="users" items="${listUser}">
+            <c:forEach var="quotes" items="${listQuote}">
                 <tr style="text-align:center">
-                    <td><c:out value="${users.email}" /></td>
-                    <td><c:out value="${users.firstName}" /></td>
-                    <td><c:out value="${users.lastName}" /></td>
-                    <td><c:out value="${users.adress_street_num} ${users.adress_street} ${users.adress_city} ${users.adress_state} ${users.adress_zip_code}" /></td>
-                    <td><c:out value="${users.password}" /></td>
-                    <td><c:out value="${users.birthday}" /></td>
-                    <td><c:out value="${users.phone}" /></td>
-                    <td><c:out value="${users.credit}" /></td>
+                    <td><c:out value="${quotes.quoteID}" /></td>
+                    <td><c:out value="${quotes.price}" /></td>
+                    <td><c:out value="${quotes.start_time}" /></td>
+                    <td><c:out value="${quotes.end_time}" /></td>
+                    <td><c:out value="${quotes.status}" /></td>
+                    <td><c:out value="${quotes.email}" /></td>
+
                 </tr>
             </c:forEach>
         </table>
