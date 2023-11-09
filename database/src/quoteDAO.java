@@ -240,7 +240,10 @@ public class quoteDAO
 					        
         					};
         String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +
-        					"values (414, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com' );"
+        					"values (414, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com'), " +
+        					"(28, default, default, '2023-11-10', '2023-11-11', default, 'j@gmail.com'), " +
+        					"(3, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(1, default, default, '2023-01-10', '2023-02-11', default, 'sophie@gmail.com');"
         					
     		)
 		};

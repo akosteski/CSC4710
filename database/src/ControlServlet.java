@@ -60,6 +60,7 @@ public class ControlServlet extends HttpServlet {
         	case "/initialize":
         		userDAO.init();
         		quoteDAO.init(); //quote table
+        		treeDAO.init(); //tree table
         		System.out.println("Database successfully initialized!");
         		rootPage(request,response,"");
         		break;
@@ -190,6 +191,7 @@ public class ControlServlet extends HttpServlet {
 	    }
 	    
 	    private void createTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	double width = request.getParameter("width");
 	    	
 	    }
 }

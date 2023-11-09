@@ -247,7 +247,7 @@ public class treeDAO
     
     public tree countTree(int treeID, int quoteID) throws SQLException {
     	tree tree = null;
-    	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "INSERT INTO Quote (tree_amt) VALUES (@count); ";
+    	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "Update Quote set tree_amt = @count where quoteID=?; ";
     	
         connect_func();
         
@@ -300,11 +300,17 @@ public class treeDAO
 					            "image3 VARCHAR(2048)," +
 					            "notes VARCHAR(500)," +
 					            "date DATE NOT NULL," +
-					            "PRIMARY KEY (treeID) "+
+					            "PRIMARY KEY (treeID), " +
 					            "FOREIGN KEY (quoteID) REFERENCES Quote(quoteID));")
 					        
         					};
-        String[] TUPLES = {("insert into Tree")
+        String[] TUPLES = {("insert into Tree (treeID, quoteID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date) values" +
+        					"(155, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Blah Blah Blue', '1999-04-12'), " +
+        					"(48, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Red Team Leader', '1999-04-12'), " +
+        					"(99, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Going Going gone!', '1999-04-12'), " + 
+        					"(6, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'sdfghjk', '1999-04-12'), " +
+        					"(31, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'We got this!', '1999-04-12'), " +
+        					"(56, 3, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Last PUsh!', '1999-04-12');")
 			    			};
         
         //for loop to put these in database
