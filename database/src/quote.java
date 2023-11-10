@@ -27,6 +27,7 @@ public class quote
 	    	this.start_time = start_time;
 	    	this.end_time = end_time;
 	    	this.status = status;
+	    	this.email = email;
 
 	  
 	    }

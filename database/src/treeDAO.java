@@ -32,43 +32,16 @@ public class treeDAO
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public treeDAO(){}
+	public treeDAO(Connection dbInstance) { connect = dbInstance; }
 	
 	/** 
 	 * @see HttpServlet#HttpServlet()
      */
-    protected void connect_func() throws SQLException {
-    	//uses default connection to the database
-        if (connect == null || connect.isClosed()) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john1234");
-            System.out.println(connect);
-        }
-    }
-    
-	//connect to the database 
-    public void connect_func(String username, String password) throws SQLException {
-        if (connect == null || connect.isClosed()) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            connect = (Connection) DriverManager
-  			      .getConnection("jdbc:mysql://127.0.0.1:3306/userdb?"
-  			          + "useSSL=false&user=" + username + "&password=" + password);
-            System.out.println(connect);
-        }
-    }
     
     public List<tree> listAllTrees() throws SQLException {
         List<tree> listTree = new ArrayList<tree>();        
         String sql = "SELECT * FROM Tree";      
-        connect_func();      
+              
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
          
@@ -94,14 +67,13 @@ public class treeDAO
             
         }        
         resultSet.close();
-        disconnect();        
         return listTree;
     }
     
     public List<tree> listQuoteTrees() throws SQLException {
         List<tree> listQuoteTree = new ArrayList<tree>();        
         String sql = "SELECT * FROM Tree WHERE quoteID=?";      
-        connect_func();      
+              
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
          
@@ -127,19 +99,13 @@ public class treeDAO
             
         }        
         resultSet.close();
-        disconnect();        
+                
         return listQuoteTree;
     }
     
-    protected void disconnect() throws SQLException {
-        if (connect != null && !connect.isClosed()) {
-        	connect.close();
-        }
-    }
-    
     public void insert(tree trees) throws SQLException {
-    	connect_func();         
-		String sql = "insert into Tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    	         
+		String sql = "insert into Tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setDouble(1, trees.getWidth());
 			preparedStatement.setDouble(2, trees.getHeight());
@@ -163,7 +129,7 @@ public class treeDAO
     
     public boolean delete(int treeID) throws SQLException {
         String sql = "DELETE FROM Tree WHERE treeID = ?";        
-        connect_func();
+        
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, treeID);
@@ -175,7 +141,7 @@ public class treeDAO
      
     public boolean update(tree trees) throws SQLException {
         String sql = "update Tree set width=?, height=?, address= ?, city=?, state=?, zipcode=?, distance=?, image1=?, image2=?, image3=?, notes=?, date=? where treeID=?";
-        connect_func();
+        
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, trees.getTreeID());
@@ -201,7 +167,7 @@ public class treeDAO
     	tree tree = null;
         String sql = "SELECT * FROM Tree WHERE treeID = ?";
          
-        connect_func();
+        
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, treeID);
@@ -236,7 +202,7 @@ public class treeDAO
     	tree tree = null;
     	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "Update Quote set tree_amt = @count where quoteID=?; ";
     	
-        connect_func();
+        
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, treeID);
@@ -268,7 +234,7 @@ public class treeDAO
     }
     
     public void init() throws SQLException, FileNotFoundException, IOException{
-    	connect_func();
+    	
         statement =  (Statement) connect.createStatement();
         
         String[] INITIAL = { "drop table if exists Tree; ",
@@ -281,23 +247,23 @@ public class treeDAO
 					            "city VARCHAR(20) NOT NULL, " +
 					            "state VARCHAR(2) NOT NULL, "+ 
 					            "zipcode VARCHAR(5) NOT NULL, "+ 
-					            "distance DECIMAL(5,2) DEFAULT 1," + 
-					            "image1 VARCHAR(2048),"+ //maximum URL character length is 2048
-					            "image2 VARCHAR(2048),"+ 
-					            "image3 VARCHAR(2048)," +
-					            "notes VARCHAR(500)," +
+					            "distance DECIMAL(6,2) DEFAULT 1," + 
+					            "image1 VARCHAR(2048), "+ //maximum URL character length is 2048
+					            "image2 VARCHAR(2048), "+ 
+					            "image3 VARCHAR(2048), " +
+					            "notes VARCHAR(500), " +
 					            "date DATE NOT NULL," +
 					            "PRIMARY KEY (treeID), " +
 					            "FOREIGN KEY (quoteID) REFERENCES Quote(quoteID));")
 					        
         					};
         String[] TUPLES = {("insert into Tree (treeID, quoteID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date) values" +
-        					"(155, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Blah Blah Blue', '1999-04-12'), " +
-        					"(48, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Red Team Leader', '1999-04-12'), " +
-        					"(99, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Going Going gone!', '1999-04-12'), " + 
-        					"(6, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'sdfghjk', '1999-04-12'), " +
-        					"(31, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'We got this!', '1999-04-12'), " +
-        					"(56, 3, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'image1', 'image2', 'image3', 'Last PUsh!', '1999-04-12');")
+        					"(155, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Blah Blah Blue', '1999-04-12'), " +
+        					"(48, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Red Team Leader', '1999-04-12'), " +
+        					"(99, 414, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Going Going gone!', '1999-04-12'), " + 
+        					"(6, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'sdfghjk', '1999-04-12'), " +
+        					"(31, 28, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'We got this!', '1999-04-12'), " +
+        					"(56, 3, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Last PUsh!', '1999-04-12');")
 			    			};
         
         //for loop to put these in database
@@ -305,7 +271,7 @@ public class treeDAO
         	statement.execute(INITIAL[i]);
         for (int i = 0; i < TUPLES.length; i++)	
         	statement.execute(TUPLES[i]);
-        disconnect();
+        
     }
     
     

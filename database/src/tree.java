@@ -19,10 +19,7 @@ public class tree
 	    public tree() {
 	    }
 	 
-	    public tree(int treeID) 
-	    {
-	        this.treeID = treeID;
-	    }
+	    public tree(int treeID) { this.treeID = treeID; }
 	    
 	    public tree(int treeID, double width, double height, String address, String city, String state, String zipcode, double distance, String image1, String image2, String image3, String notes, String date, int quoteID) 
 	    {

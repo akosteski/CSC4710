@@ -22,9 +22,9 @@ import java.sql.PreparedStatement;
 
 public class ControlServlet extends HttpServlet {
 	    private static final long serialVersionUID = 1L;
-	    private userDAO userDAO = new userDAO();
-	    private quoteDAO quoteDAO = new quoteDAO();
-	    private treeDAO treeDAO = new treeDAO();
+	    private userDAO userDAO;
+	    private quoteDAO quoteDAO;
+	    private treeDAO treeDAO;
 	    private String currentUser;
 	    private int currentQuote;
 	    private int currentTree;
@@ -37,12 +37,16 @@ public class ControlServlet extends HttpServlet {
 	    
 	    public void init()
 	    {
-	    	quoteDAO = new quoteDAO();
-	    	userDAO = new userDAO();
-	    	treeDAO = new treeDAO();
-	    	currentUser= "";
-	    	currentQuote = 0;
-	    	currentTree = 0;
+	    	try {
+		    	quoteDAO = new quoteDAO(dbConnect.getDbConnection());
+		    	userDAO = new userDAO(dbConnect.getDbConnection());
+		    	treeDAO = new treeDAO(dbConnect.getDbConnection());
+		    	currentUser= "";
+		    	currentQuote = 0;
+		    	currentTree = 0;
+	    	} catch (SQLException e) {
+	    		e.printStackTrace();
+	    	}
 	    }
 	    
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,7 +70,7 @@ public class ControlServlet extends HttpServlet {
         		quoteDAO.init(); //quote table
         		treeDAO.init(); //tree table
         		System.out.println("Database successfully initialized!");
-        		rootPage(request,response,"");
+        		rootPage(request,response,"initialize");
         		break;
         	case "/root":
         		rootPage(request,response, "");
@@ -86,6 +90,8 @@ public class ControlServlet extends HttpServlet {
         		System.out.println("The action is: make a tree");
         		createTree(request, response);
         		break;
+        	case "/userQuote":
+        		
                  
 	    	}
 	    }
@@ -191,16 +197,30 @@ public class ControlServlet extends HttpServlet {
 	    }    
 	    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	    	currentUser = "";
+	    	currentQuote = 0;
+	    	currentTree = 0;
         		response.sendRedirect("login.jsp");
         	}
 	    
 	    private void requestQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	System.out.println(currentUser);
+	    	//int tree_amt = Integer.parseInt(request.getParameter("tree_amt"));
+	    	//double price = Double.parseDouble(request.getParameter("price"));
+	    	//String start_date = request.getParameter("start_date");
+	    	//String end_date = request.getParameter("end_date");
+	    	//String status = request.getParameter("status");
 	    	String email = currentUser;
-	    	quote quotes = new quote(java.sql.Types.INTEGER);
+	    	quote quotes = new quote(email);
 	    	quoteDAO.insert(quotes);
 	    	
-			 request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
+	    	
+	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	//currentQuote = quoteID;
+			request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
+	    }
+	    
+	    private void createQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	
 	    }
 	    
 	    private void createTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -216,9 +236,6 @@ public class ControlServlet extends HttpServlet {
             String image3 = request.getParameter("image3");
             String notes = request.getParameter("notes"); 
             String date = request.getParameter("date");
-            
-            currentQuote = 4;
-            
             int quoteID = currentQuote;          
             System.out.println("Sending info to the Tree");
             tree trees = new tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);

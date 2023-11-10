@@ -11,46 +11,42 @@
 <body>
 
 <div align = "center">
-	
-	<form action = "initialize">
-		<input type = "submit" value = "Initialize the Database"/>
-	</form>
 	<a href="login.jsp"target ="_self" > logout</a><br><br> 
 
-<h1>List all users</h1>
+<h1>Request a Quote Form</h1>
     <div align="center">
+    	<form action = "createQuote">
+    	
+    	<input type = "submit" value = "Submit Request"/>
+    	<button onclick="window.location.href='Tree.jsp';">Add Tree</button>
         <table border="1" cellpadding="6">
-            <caption><h2>List of Users</h2></caption>
+            <caption><h2></h2></caption>
             <tr>
                 <th>Width</th>
                 <th>Height</th>
                 <th>Address</th>
                 <th>Proximity to House</th>
-                <th>Number of Trees</th>
                 <th>Picture 1</th>
                 <th>Picture 2</th>
                 <th>Picture 3</th>
                 <th>Date</th>
                 <th>Notes</th>
             </tr>
-            <c:forEach var="tree" items="${listUserTree}">
+            <c:forEach var="tree" items="${listQuoteTree}">
                 <tr style="text-align:center">
-                    <td><c:out value="${tree.width}" /></td>
-                    <td><c:out value="${tree.height}" /></td>
-                    <td><c:out value="${tree.address} ${users.city} ${users.state} ${users.zipcode}" /></td>
-                    <td><c:out value="${tree.distance}" /></td>
-                    <td><c:out value="${tree.tree_amt}" /></td>
-                    <td><c:out value="${tree.image_1}" /></td>
-                    <td><c:out value="${tree.image_2}" /></td>
-                    <td><c:out value="${tree.image_3}" /></td>
-                    <td><c:out value="${tree.date}" /></td>
-                    <td><c:out value="${tree.notes}" /></td>
+                    <td><c:out value="${trees.width}" /></td>
+                    <td><c:out value="${trees.height}" /></td>
+                    <td><c:out value="${trees.address} ${trees.city} ${trees.state} ${trees.zipcode}" /></td>
+                    <td><c:out value="${trees.distance}" /></td>
+                    <td><c:out value="${trees.image1}" /></td>
+                    <td><c:out value="${trees.image2}" /></td>
+                    <td><c:out value="${trees.image3}" /></td>
+                    <td><c:out value="${trees.date}" /></td>
+                    <td><c:out value="${trees.notes}" /></td>
                 </tr>
             </c:forEach>
         </table>
-        <a href="https:google.com">
-  		<button>Submit all Entries</button>
-		</a><br><br><br><br><br>
+	</form>
 	</div>
 	</div>
 
