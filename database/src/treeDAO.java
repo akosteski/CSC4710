@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * Servlet implementation class Connect
  */
+@WebServlet("/treeDAO")
 public class treeDAO 
 {
 	private static final long serialVersionUID = 1L;
@@ -49,20 +50,6 @@ public class treeDAO
         }
     }
     
-    public boolean database_login(String email, String password) throws SQLException{
-    	try {
-    		connect_func("root","pass1234");
-    		String sql = "select * from user where email = ?";
-    		preparedStatement = connect.prepareStatement(sql);
-    		preparedStatement.setString(1, email);
-    		ResultSet rs = preparedStatement.executeQuery();
-    		return rs.next();
-    	}
-    	catch(SQLException e) {
-    		System.out.println("failed login");
-    		return false;
-    	}
-    }
 	//connect to the database 
     public void connect_func(String username, String password) throws SQLException {
         if (connect == null || connect.isClosed()) {
@@ -151,8 +138,8 @@ public class treeDAO
     }
     
     public void insert(tree trees) throws SQLException {
-    	connect_func("root","pass1234");         
-		String sql = "insert into Tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    	connect_func();         
+		String sql = "insert into Tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setDouble(1, trees.getWidth());
 			preparedStatement.setDouble(2, trees.getHeight());

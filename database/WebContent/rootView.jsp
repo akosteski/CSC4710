@@ -49,6 +49,7 @@
             <caption><h2>List of Quotes</h2></caption>
             <tr>
                 <th>ID</th>
+                <th># of Trees</th>
                 <th>Price</th>
                 <th>Start Date</th>
                 <th>End Date</th>
@@ -58,11 +59,42 @@
             <c:forEach var="quotes" items="${listQuote}">
                 <tr style="text-align:center">
                     <td><c:out value="${quotes.quoteID}" /></td>
+                    <td><c:out value="${quotes.tree_amt}"/></td>
                     <td><c:out value="${quotes.price}" /></td>
                     <td><c:out value="${quotes.start_time}" /></td>
                     <td><c:out value="${quotes.end_time}" /></td>
                     <td><c:out value="${quotes.status}" /></td>
                     <td><c:out value="${quotes.email}" /></td>
+
+                </tr>
+            </c:forEach>
+        </table>
+        
+        <table border="1" cellpadding="6">
+            <caption><h2>List of Trees</h2></caption>
+            <tr>
+                <th>Tree ID</th>
+                <th>Quote ID</th>
+                <th>Width</th>
+                <th>Height</th>
+                <th>Address</th>
+                <th>Distance</th>
+                <th>Images</th>
+                <th>Notes</th>
+                <th>Date</th>
+                
+            </tr>
+            <c:forEach var="trees" items="${listTree}">
+                <tr style="text-align:center">
+                    <td><c:out value="${trees.treeID}" /></td>
+                    <td><c:out value="${trees.quoteID}" /></td>
+                    <td><c:out value="${trees.width}" /></td>
+                    <td><c:out value="${trees.height}" /></td>
+                    <td><c:out value="${trees.address} ${trees.city} ${trees.state} ${trees.zipcode}" /></td>
+                    <td><c:out value="${trees.distance}" /></td>
+                    <td><a href="${trees.image1}"> image 1</a> <a href="${trees.image2}"> image 2</a> <a href="${trees.image3}"> image 3</a> </td>
+                    <td><c:out value="${trees.notes}" /></td>
+                    <td><c:out value="${trees.date}" /></td>
 
                 </tr>
             </c:forEach>

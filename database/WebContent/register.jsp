@@ -44,7 +44,7 @@
 				<tr>
 					<th>Credit Card: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="cc" size="45" value="1111-2222-3333-4444" onfocus="this.value=''">
+						<input type="text" name="credit" size="45" value="1111-2222-3333-4444" onfocus="this.value=''">
 					</td>
 	
 				</tr>

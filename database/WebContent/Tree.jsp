@@ -2,13 +2,11 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<head><title>Make a Quote for my Tree Cutting Service</title></head>
+<head><title>Request a Quote for my Tree Cutting Service</title></head>
 <body>
 	<div align="center">
-		<p> ${errorOne } </p>
-		<p> ${errorTwo } </p>
-		<form action="register">
-		<h1>Make a Quote for my Tree Cutting Service</h1>
+		 <form action="makeTree" method="post">
+		<h1>Submit a Tree for my Tree Cutting Service</h1>
 			<table border="1" cellpadding="5">
 				<tr>
 					<th>Width: </th>
@@ -49,15 +47,9 @@
 				<tr>
 					<th>Proximity to House: </th>
 					<td align="left" colspan="3">
-						<input type="number" step=0.01 name="prox" size="45" value="00.00" onfocus="this.value=''">
+						<input type="number" step=0.01 name="distance" size="45" value="00.00" onfocus="this.value=''">
 					</td>
 	
-				</tr>
-				<tr>
-					<th>Number of Trees: </th>
-					<td align="left" colspan="3">
-						<input type="number" name="tree_amt" size="45" value="00" onfocus="this.value=''">
-					</td>
 				</tr>
 				<tr>
 					<th>Picture 1: </th>
@@ -77,24 +69,19 @@
 						<input type="text" name="image_3" size="45" value="(URL)" onfocus="this.value=''"> 
 					</td>	
 				</tr>
-				
 					<th>Date: </th>
 					<td align="center" colspan="3">
 						<input type="text" name="date" size="45" value="YYYY-MM-DD" onfocus="this.value=''">
 					</td>
-	
 				</tr>
 				<tr>
 					<th>Notes: </th>
 					<td align="center" colspan="30">
 						<input type="text" name="notes" size="45" value="notes" onfocus="this.value=''">
 					</td>
-	
 				</tr>
-
-
 					<td align="center" colspan="5">
-						<input type="submit" value="Submit Quote"/>
+						<input type="submit" value="Submit Tree"/>
 					</td>
 				</tr>
 			</table>

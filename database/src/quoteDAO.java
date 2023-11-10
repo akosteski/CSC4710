@@ -23,6 +23,7 @@ import java.util.List;
 /**
  * Servlet implementation class Connect
  */
+@WebServlet("/quoteDAO")
 public class quoteDAO 
 {
 	private static final long serialVersionUID = 1L;
@@ -49,20 +50,6 @@ public class quoteDAO
         }
     }
     
-    public boolean database_login(String email, String password) throws SQLException{
-    	try {
-    		connect_func("root","pass1234");
-    		String sql = "select * from user where email = ?";
-    		preparedStatement = connect.prepareStatement(sql);
-    		preparedStatement.setString(1, email);
-    		ResultSet rs = preparedStatement.executeQuery();
-    		return rs.next();
-    	}
-    	catch(SQLException e) {
-    		System.out.println("failed login");
-    		return false;
-    	}
-    }
 	//connect to the database 
     public void connect_func(String username, String password) throws SQLException {
         if (connect == null || connect.isClosed()) {
@@ -87,13 +74,14 @@ public class quoteDAO
          
         while (resultSet.next()) {
             int quoteID = resultSet.getInt("quoteID");
+            int tree_amt = resultSet.getInt("tree_amt");
             double price = resultSet.getDouble("price");
             String start_time = resultSet.getString("start_time");
             String end_time = resultSet.getString("end_time");
             String status = resultSet.getString("status");
             String email = resultSet.getString("email");
              
-            quote quotes = new quote(quoteID, price, start_time, end_time, status, email);
+            quote quotes = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
             listQuote.add(quotes);
             
         }        
@@ -111,13 +99,14 @@ public class quoteDAO
          
         while (resultSet.next()) {
             int quoteID = resultSet.getInt("quoteID");
+            int tree_amt = resultSet.getInt("tree_amt");
             double price = resultSet.getDouble("price");
             String start_time = resultSet.getString("start_time");
             String end_time = resultSet.getString("end_time");
             String status = resultSet.getString("status");
             String email = resultSet.getString("email");
              
-            quote quotes = new quote(quoteID, price, start_time, end_time, status, email);
+            quote quotes = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
             listPendingQuote.add(quotes);
             
         }        
@@ -133,8 +122,8 @@ public class quoteDAO
     }
     
     public void insert(quote quotes) throws SQLException {
-    	connect_func("root","pass1234");         
-		String sql = "insert into Quote(price, start_time, end_time, status, email) values (?, ?, ?, ?)";
+    	connect_func();            
+		String sql = "insert into Quote(email) values (?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setDouble(1, quotes.getPrice());
 			preparedStatement.setString(2, quotes.getStart_time());
@@ -160,16 +149,17 @@ public class quoteDAO
     }
      
     public boolean update(quote quotes) throws SQLException {
-        String sql = "update Quote set price=?, start_time=?, end_time=?, status=?, where quoteID=?";
+        String sql = "update Quote set tree_amt=?, price=?, start_time=?, end_time=?, status=?, where quoteID=?";
         connect_func();
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, quotes.getQuoteID());
-		preparedStatement.setDouble(2, quotes.getPrice());
-		preparedStatement.setString(3, quotes.getStart_time());
-		preparedStatement.setString(4, quotes.getEnd_time());
-		preparedStatement.setString(5, quotes.getStatus());
-		preparedStatement.setString(6, quotes.getEmail());		
+        preparedStatement.setInt(2, quotes.getTree_amt());
+		preparedStatement.setDouble(3, quotes.getPrice());
+		preparedStatement.setString(4, quotes.getStart_time());
+		preparedStatement.setString(5, quotes.getEnd_time());
+		preparedStatement.setString(6, quotes.getStatus());
+		preparedStatement.setString(7, quotes.getEmail());		
 	
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
@@ -189,13 +179,14 @@ public class quoteDAO
         ResultSet resultSet = preparedStatement.executeQuery();
          
         if (resultSet.next()) {
+        	int tree_amt = resultSet.getInt("tree_amt");
         	double price = resultSet.getDouble("price");
             String start_time = resultSet.getString("start_time");
             String end_time = resultSet.getString("end_time");
             String status = resultSet.getString("status");
             String email = resultSet.getString("email");
 
-            currentQuote = new quote(quoteID, price, start_time, end_time, status, email);
+            currentQuote = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
         }
          
         resultSet.close();
@@ -232,10 +223,10 @@ public class quoteDAO
 					        	"tree_amt INTEGER DEFAULT 0, " +
 					        	"price DECIMAL(5,2) DEFAULT 100, " +
 					        	"email VARCHAR(50) NOT NULL, " +
-					            "start_time DATE NOT NULL, " +
-					            "end_time DATE NOT NULL, " +
+					            "start_time DATE DEFAULT '1999-12-31', " +
+					            "end_time DATE DEFAULT '1999-12-31', " +
 					            "status VARCHAR(10) DEFAULT 'Pending', " +
-					            "PRIMARY KEY (quoteID), "+
+					            "PRIMARY KEY (quoteID), " +
 					            "FOREIGN KEY (email) REFERENCES User(email)); ")
 					        
         					};

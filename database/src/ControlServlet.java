@@ -26,6 +26,8 @@ public class ControlServlet extends HttpServlet {
 	    private quoteDAO quoteDAO = new quoteDAO();
 	    private treeDAO treeDAO = new treeDAO();
 	    private String currentUser;
+	    private int currentQuote;
+	    private int currentTree;
 	    private HttpSession session=null;
 	    
 	    public ControlServlet()
@@ -39,6 +41,8 @@ public class ControlServlet extends HttpServlet {
 	    	userDAO = new userDAO();
 	    	treeDAO = new treeDAO();
 	    	currentUser= "";
+	    	currentQuote = 0;
+	    	currentTree = 0;
 	    }
 	    
 	    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -77,9 +81,11 @@ public class ControlServlet extends HttpServlet {
         	case "/request":
         		System.out.println("The action is: request");
         		requestQuote(request, response);
+        		break;
         	case "/makeTree":
         		System.out.println("The action is: make a tree");
         		createTree(request, response);
+        		break;
                  
 	    	}
 	    }
@@ -109,6 +115,8 @@ public class ControlServlet extends HttpServlet {
 	    private void rootPage(HttpServletRequest request, HttpServletResponse response, String view) throws ServletException, IOException, SQLException{
 	    	System.out.println("root view");
 			request.setAttribute("listUser", userDAO.listAllUsers());
+			request.setAttribute("listQuote", quoteDAO.listAllQuotes());
+			request.setAttribute("listTree", treeDAO.listAllTrees());
 	    	request.getRequestDispatcher("rootView.jsp").forward(request, response);
 	    }
 	    
@@ -128,7 +136,7 @@ public class ControlServlet extends HttpServlet {
 	    	 {
 				 System.out.println("Login Successful! Redirecting to David Smith Page");
 				 session = request.getSession();
-				 session.setAttribute("username", password);
+				 session.setAttribute("username", email);
 				 request.getRequestDispatcher("DavidSmithview.jsp").forward(request, response);
 	
 	    	 }
@@ -137,6 +145,7 @@ public class ControlServlet extends HttpServlet {
 			 	 
 			 	 currentUser = email;
 				 System.out.println("Login Successful! Redirecting");
+				 System.out.println("The current user is: " + currentUser);
 				 request.getRequestDispatcher("activitypage.jsp").forward(request, response);
 			 			 			 			 
 	    	 }
@@ -164,7 +173,7 @@ public class ControlServlet extends HttpServlet {
 	   	 	if (password.equals(confirm)) {
 	   	 		if (!userDAO.checkEmail(email)) {
 		   	 		System.out.println("Registration Successful! Added to database");
-		            user users = new user(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit, phone);
+		            user users = new user(email, firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit, phone);
 		   	 		userDAO.insert(users);
 		   	 		response.sendRedirect("login.jsp");
 	   	 		}
@@ -186,13 +195,37 @@ public class ControlServlet extends HttpServlet {
         	}
 	    
 	    private void requestQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	System.out.println(currentUser);
+	    	String email = currentUser;
+	    	quote quotes = new quote(java.sql.Types.INTEGER);
+	    	quoteDAO.insert(quotes);
 	    	
-	    	
+			 request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    }
 	    
 	    private void createTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	double width = request.getParameter("width");
-	    	
+	    	double width = Double.parseDouble(request.getParameter("width"));
+            double height = Double.parseDouble(request.getParameter("height"));
+            String address = request.getParameter("address");
+            String city = request.getParameter("city");
+            String state = request.getParameter("state"); 
+            String zipcode = request.getParameter("zipcode"); 
+            double distance = Double.parseDouble(request.getParameter("distance"));
+            String image1 = request.getParameter("image1");
+            String image2 = request.getParameter("image2");
+            String image3 = request.getParameter("image3");
+            String notes = request.getParameter("notes"); 
+            String date = request.getParameter("date");
+            
+            currentQuote = 4;
+            
+            int quoteID = currentQuote;          
+            System.out.println("Sending info to the Tree");
+            tree trees = new tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
+            treeDAO.insert(trees);
+            //treeDAO.update(trees);
+            response.sendRedirect("RequestQuote.jsp");
+    	
 	    }
 }
 	        

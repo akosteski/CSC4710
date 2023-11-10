@@ -14,8 +14,12 @@
  
 	<body>
 	 <center>
-		 <button onclick="window.location.href='Tree.jsp';"> Request Quote
-		 </button></br></br>
+		 <form action="request" method="post">
+			<table border="1" cellpadding="5">
+
+				<input type="submit" value="Request a Quote"/>
+
+		</form></br></br>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> You can find quotes you've made here.</p>
 		 </center>
