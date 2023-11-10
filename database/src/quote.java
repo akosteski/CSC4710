@@ -7,6 +7,7 @@ public class quote
 	 	protected String end_time;
 	 	protected String status;
 	 	protected String email;
+	 	protected String contractor; //since david smith is the sole contractor, this data entry will NOT be included in any tables, this is just to keep track who is negotiating with who
 	 
 	    //constructors
 	    public quote() {}
@@ -60,5 +61,11 @@ public class quote
 	    public String getEmail() { return email; }
 	    
 	    public void setEmail(String email) { this.email = email; }
+	    
+	    public String getContractor() { return contractor; }
+	    
+	    public void setContractor(String contractor) { this.contractor = contractor; }
+	    
+	    
 	    
 	}

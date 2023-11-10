@@ -62,12 +62,13 @@ public class quoteDAO
         return listQuote;
     }
     
-    public List<quote> listPendingQuotes() throws SQLException {
+    public List<quote> listUserQuotes(String email) throws SQLException {
         List<quote> listPendingQuote = new ArrayList<quote>();        
-        String sql = "SELECT * FROM Quote WHERE Status = 'Pending'";      
+        String sql = "SELECT * FROM Quote WHERE email=?";      
               
-        statement = (Statement) connect.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
          
         while (resultSet.next()) {
             int quoteID = resultSet.getInt("quoteID");
@@ -76,8 +77,7 @@ public class quoteDAO
             String start_time = resultSet.getString("start_time");
             String end_time = resultSet.getString("end_time");
             String status = resultSet.getString("status");
-            String email = resultSet.getString("email");
-             
+            
             quote quotes = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
             listPendingQuote.add(quotes);
             
@@ -102,7 +102,7 @@ public class quoteDAO
     }
     
     public boolean delete(int quoteID) throws SQLException {
-        String sql = "DELETE FROM Quote WHERE quoteID = ?";        
+        String sql = "DELETE * FROM Quote WHERE quoteID = ?";        
         
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
@@ -135,9 +135,6 @@ public class quoteDAO
     public quote getQuote(int quoteID) throws SQLException {
     	quote currentQuote = null;
         String sql = "SELECT * FROM Quote WHERE quoteID = ?";
-         
-        
-         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, quoteID);
          
@@ -160,24 +157,6 @@ public class quoteDAO
         return currentQuote;
     }
     
-    public boolean checkEmail(String email) throws SQLException {
-    	boolean checks = false;
-    	String sql = "SELECT * FROM Quote WHERE email = ?";
-    	
-    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        
-        System.out.println(checks);	
-        
-        if (resultSet.next()) {
-        	checks = true;
-        }
-        
-        System.out.println(checks);
-    	return checks;
-    }
-    
     public void init() throws SQLException, FileNotFoundException, IOException{
     	
         statement =  (Statement) connect.createStatement();
@@ -188,11 +167,13 @@ public class quoteDAO
 					        	"tree_amt INTEGER DEFAULT 0, " +
 					        	"price DECIMAL(5,2) DEFAULT 0, " +
 					        	"email VARCHAR(50) NOT NULL, " +
+					        	"contractor VARCHAR(50) DEFAULT 'davidsmith@gmail.com', " +
 					            "start_time DATE DEFAULT '1999-12-31', " +
 					            "end_time DATE DEFAULT '1999-12-31', " +
 					            "status VARCHAR(10) DEFAULT 'Pending', " +
 					            "PRIMARY KEY (quoteID), " +
-					            "FOREIGN KEY (email) REFERENCES User(email)); ")
+					            "FOREIGN KEY (email) REFERENCES User(email)," +
+					            "FOREIGN KEY (contractor) REFERENCES User(email));" )
 					        
         					};
         String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +

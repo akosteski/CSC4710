@@ -210,11 +210,13 @@ public class ControlServlet extends HttpServlet {
 	    	//String end_date = request.getParameter("end_date");
 	    	//String status = request.getParameter("status");
 	    	String email = currentUser;
+	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+
 	    	quote quotes = new quote(email);
 	    	quoteDAO.insert(quotes);
 	    	
-	    	
-	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+			request.setAttribute("listUserQuote", quoteDAO.listUserQuotes(email));
+	    	//request.setAttribute("listQuoteTrees", treeDAO.listQuoteTrees(quoteID));
 	    	//currentQuote = quoteID;
 			request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    }

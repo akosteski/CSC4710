@@ -70,12 +70,13 @@ public class treeDAO
         return listTree;
     }
     
-    public List<tree> listQuoteTrees() throws SQLException {
+    public List<tree> listQuoteTrees(int quoteID) throws SQLException {
         List<tree> listQuoteTree = new ArrayList<tree>();        
         String sql = "SELECT * FROM Tree WHERE quoteID=?";      
               
-        statement = (Statement) connect.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, quoteID);
+        ResultSet resultSet = preparedStatement.executeQuery();
          
         while (resultSet.next()) {
             int treeID = resultSet.getInt("treeID");
@@ -91,8 +92,6 @@ public class treeDAO
             String image3 = resultSet.getString("image3");
             String notes = resultSet.getString("notes"); 
             String date = resultSet.getString("date");
-            int quoteID = resultSet.getInt("quoteID");
-
              
             tree trees = new tree(treeID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
             listQuoteTree.add(trees);
