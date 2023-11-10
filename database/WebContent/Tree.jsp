@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head><title>Create a Tree</title></head>
 <body>
 	<div align="center">
-		 <form action="makeTree" method="post">
+		 <form action="createTree" method="post">
 		<h1>Add a tree to your Quote Request</h1>
 			<table border="1" cellpadding="5">
 				<tr>

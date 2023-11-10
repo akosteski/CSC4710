@@ -15,19 +15,22 @@
 
 <h1>Request a Quote Form</h1>
     <div align="center">
-    	<form action = "makeTree">
-    		<label>Select quote to add a tree to</label>
-    		<select name = "quoteID">
-    			<c:forEach items = "${listUserQuote}" var="quotes" varStatus="loop">
-    			<option value="${quotes.quoteID}"><c:out value="${quotes.quoteID}" /></option>
-    		</c:forEach>
-    	</select>
-    	
+    	<form action="createQuote" method="post">
     	<input type = "submit" value = "Submit Request"/>
-        <table border="1" cellpadding="6">
-        
-        <a href="Tree.jsp"target = "_self"> Click here to add a tree </a><br><br>
-            <caption><h2>Trees in this Request</h2></caption>
+	</form>
+	</div>
+	
+	<div align = "center">
+	<form action="makeTree" method="post">
+	<label>Select the quote you would like to add a tree to.</label>
+    	<select name = "quoteID">
+ 			<c:forEach items = "${listUserQuote}" var="quotes" varStatus="loop">
+ 				<option value="${quotes.quoteID}"><c:out value="${quotes.quoteID}" /></option>
+ 			</c:forEach>
+ 		</select>
+	<input type = "submit" value = "Add Tree"/>
+	<table border="1" cellpadding="6">
+	<caption><h2>Trees in this Request</h2></caption>
             <tr>
                 <th>Width</th>
                 <th>Height</th>
@@ -53,7 +56,7 @@
                 </tr>
             </c:forEach>
         </table>
-	</form>
+        </form>
 	</div>
 	</div>
 
