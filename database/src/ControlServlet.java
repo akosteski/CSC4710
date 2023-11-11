@@ -27,7 +27,6 @@ public class ControlServlet extends HttpServlet {
 	    private treeDAO treeDAO;
 	    private String currentUser;
 	    private int currentQuote;
-	    private int currentTree;
 	    private HttpSession session=null;
 	    
 	    public ControlServlet()
@@ -43,7 +42,6 @@ public class ControlServlet extends HttpServlet {
 		    	treeDAO = new treeDAO(dbConnect.getDbConnection());
 		    	currentUser= "";
 		    	currentQuote = 0;
-		    	currentTree = 0;
 	    	} catch (SQLException e) {
 	    		e.printStackTrace();
 	    	}
@@ -84,8 +82,14 @@ public class ControlServlet extends HttpServlet {
                  break;
         	case "/request":
         		System.out.println("The action is: request");
-        		requestQuote(request, response);
+        		requestQuoteStart(request, response);
         		break;
+        		
+        	case "/generateQuote":
+        		System.out.println("generating a quote");
+        		generateQuote(request, response);
+        		break;
+        		
         	case "/makeTree":
         		System.out.println("The action is: make a tree");
         		makeTree(request, response);
@@ -96,6 +100,9 @@ public class ControlServlet extends HttpServlet {
         		createTree(request, response);
         		break;
         		
+        	case "/selectQuote":
+        		System.out.println("quote has been selected");
+        		selectQuote(request, response);
                  
 	    	}
 	    }
@@ -202,41 +209,61 @@ public class ControlServlet extends HttpServlet {
 	    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
 	    	currentUser = "";
 	    	currentQuote = 0;
-	    	currentTree = 0;
-        		response.sendRedirect("login.jsp");
+	    	
+	    	System.out.println("Current user is: " + currentUser + " Current quote ID is: " + currentQuote);
+	    	response.sendRedirect("login.jsp");
         	}
 	    
-	    private void requestQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    private void requestQuoteStart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	//int tree_amt = Integer.parseInt(request.getParameter("tree_amt"));
 	    	//double price = Double.parseDouble(request.getParameter("price"));
 	    	//String start_date = request.getParameter("start_date");
 	    	//String end_date = request.getParameter("end_date");
 	    	//String status = request.getParameter("status");
 	    	String email = currentUser;
-	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
-	    	
+	    	int quoteID = currentQuote;
 	    	System.out.println("The current user is: " + email);
-
+	    	
+	    	request.setAttribute("listUserQuote", quoteDAO.listUserQuotes(email));
+	    	    	
+	    	if (quoteID > 0) {
+	    		System.out.println("Displaying trees under quote " + quoteID);
+		    	request.setAttribute("listQuoteTree", treeDAO.listQuoteTrees(quoteID));
+		    	request.setAttribute("QuoteID", quoteID);
+	    	}
+	    	
+	    	else {
+	    		System.out.println("No quoteID has been selected yet!");
+	    	}
+	    	request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
+	    }
+	    
+	    private void selectQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	
+	    	currentQuote = quoteID;
+	    	requestQuoteStart(request, response);
+	    }
+	    
+	    private void generateQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	String email = currentUser;
+	    	
 	    	quote quotes = new quote(email);
 	    	quoteDAO.insert(quotes);
 	    	
-	    	request.setAttribute("listUserQuote", quoteDAO.listUserQuotes(email));
-	    	
-	    	//request.setAttribute("listQuoteTrees", treeDAO.listQuoteTrees(quoteID));
-	    	//currentQuote = quoteID;
-			request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
-	    }
-	    
-	    private void createQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	requestQuoteStart(request, response);
+	    	//request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    	
 	    }
 	    
 	    private void makeTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String email = currentUser;
 	    	
-	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
 	    	
-	    	currentQuote = quoteID;
+	    	//currentQuote = quoteID;
+	    	
+	    	int quoteID = currentQuote;
 	    	
 	    	System.out.println("The current user is: " + email);
 	    	
@@ -268,8 +295,9 @@ public class ControlServlet extends HttpServlet {
             tree trees = new tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
             treeDAO.insert(trees);
             //treeDAO.update(trees);
-            response.sendRedirect("RequestQuote.jsp");
-    	
+            
+            requestQuoteStart(request, response);
+			//request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    }
 }
 	        

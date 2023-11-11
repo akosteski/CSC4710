@@ -11,46 +11,56 @@
 <body>
 
 <div align = "center">
-	<a href="login.jsp"target ="_self" > logout</a><br><br> 
+	<a href="activitypage.jsp"target ="_self" >Return to Home</a><br><br> 
 
 <h1>Request a Quote Form</h1>
     <div align="center">
+    <div align="center">
+    	<form action="generateQuote" method="post">
+    	<input type = "submit" value = "Generate a Quote"/>
+	</form>
+	<br>
+	
     	<form action="createQuote" method="post">
     	<input type = "submit" value = "Submit Request"/>
 	</form>
+	<br>
 	</div>
 	
 	<div align = "center">
-	<form action="makeTree" method="post">
+	<form action="selectQuote" method="post">
 	<label>Select the quote you would like to add a tree to.</label>
     	<select name = "quoteID">
  			<c:forEach items = "${listUserQuote}" var="quotes" varStatus="loop">
  				<option value="${quotes.quoteID}"><c:out value="${quotes.quoteID}" /></option>
  			</c:forEach>
  		</select>
-	<input type = "submit" value = "Add Tree"/>
+	<input type = "submit" value = "Select Quote"/>
+	</form>
+	<br>
+	<form action="makeTree" method ="post">
+	<input type = "submit" value = "Add a Tree to this Quote!">
 	<table border="1" cellpadding="6">
-	<caption><h2>Trees in this Request</h2></caption>
+	<caption><h2>Trees in this Quote</h2></caption>
+	<caption><h3>Selected Quote: ${QuoteID}</h3></caption>
             <tr>
-                <th>Width</th>
-                <th>Height</th>
+            	<th>Tree ID</th>
+                <th>Width (meters)</th>
+                <th>Height (meters)</th>
                 <th>Address</th>
-                <th>Proximity to House</th>
-                <th>Picture 1</th>
-                <th>Picture 2</th>
-                <th>Picture 3</th>
+                <th>Proximity to House (meters)</th>
+                <th>Pictures</th>
                 <th>Date</th>
                 <th>Notes</th>
             </tr>
-            <c:forEach var="tree" items="${listQuoteTree}">
+            <c:forEach var="trees" items="${listQuoteTree}">
                 <tr style="text-align:center">
-                    <td><c:out value="${trees.width}" /></td>
-                    <td><c:out value="${trees.height}" /></td>
+                	<td><c:out value="${trees.treeID}" /></td>
+                    <td><c:out value="${trees.width}" />m</td>
+                    <td><c:out value="${trees.height}" />m</td>
                     <td><c:out value="${trees.address} ${trees.city} ${trees.state} ${trees.zipcode}" /></td>
-                    <td><c:out value="${trees.distance}" /></td>
-                    <td><c:out value="${trees.image1}" /></td>
-                    <td><c:out value="${trees.image2}" /></td>
-                    <td><c:out value="${trees.image3}" /></td>
+                    <td><c:out value="${trees.distance}" />m</td>
+                    <td><a href="${trees.image1}"> image 1</a> <a href="${trees.image2}"> image 2</a> <a href="${trees.image3}"> image 3</a> </td>
                     <td><c:out value="${trees.date}" /></td>
                     <td><c:out value="${trees.notes}" /></td>
                 </tr>
