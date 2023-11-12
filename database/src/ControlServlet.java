@@ -103,6 +103,23 @@ public class ControlServlet extends HttpServlet {
         	case "/selectQuote":
         		System.out.println("quote has been selected");
         		selectQuote(request, response);
+        		break;
+    		
+        	case "/sendRequest":
+        		System.out.println("Sending request...");
+        		//sendQuoteRequest(request, response);
+        		break;
+        		
+        	case "/viewQuotes":
+        		System.out.println("Showing all quotes for David Smith...");
+        		listAllQuotes(request, response);
+        		break;
+        		
+        	case "/sendResponse":
+        		System.out.println("Sending a response");
+        		sendResponse(request, response);
+        		break;
+        		
                  
 	    	}
 	    }
@@ -154,6 +171,7 @@ public class ControlServlet extends HttpServlet {
 				 System.out.println("Login Successful! Redirecting to David Smith Page");
 				 session = request.getSession();
 				 session.setAttribute("username", email);
+				 currentUser = email;
 				 request.getRequestDispatcher("DavidSmithview.jsp").forward(request, response);
 	
 	    	 }
@@ -240,9 +258,19 @@ public class ControlServlet extends HttpServlet {
 	    
 	    private void selectQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	String email = currentUser;
 	    	
 	    	currentQuote = quoteID;
-	    	requestQuoteStart(request, response);
+	    	
+	    	if (email.equals("davidsmith@gmail.com")) {
+	    		System.out.println("Displaying trees under quote " + quoteID);
+		    	request.setAttribute("listQuoteTree", treeDAO.listQuoteTrees(quoteID));
+		    	request.setAttribute("QuoteID", quoteID);
+		    	request.getRequestDispatcher("viewQuoteTrees.jsp").forward(request, response);
+	    	}
+	    	
+	    	else { requestQuoteStart(request, response); }
+	    	
 	    }
 	    
 	    private void generateQuote(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
@@ -299,6 +327,18 @@ public class ControlServlet extends HttpServlet {
             requestQuoteStart(request, response);
 			//request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    }
+	    
+	    private void listAllQuotes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+			request.setAttribute("listQuote", quoteDAO.listAllQuotes());
+			
+	    	request.getRequestDispatcher("davidViewQuotes.jsp").forward(request, response);
+	    }
+	    
+	    private void sendResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quote = currentQuote;
+	    	
+	    }
+	    
 }
 	        
 	        

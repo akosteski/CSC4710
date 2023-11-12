@@ -63,8 +63,32 @@ public class quoteDAO
     }
     
     public List<quote> listUserQuotes(String email) throws SQLException {
-        List<quote> listPendingQuote = new ArrayList<quote>();        
+        List<quote> listUserQuote = new ArrayList<quote>();        
         String sql = "SELECT * FROM Quote WHERE email=?";      
+              
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+         
+        while (resultSet.next()) {
+            int quoteID = resultSet.getInt("quoteID");
+            int tree_amt = resultSet.getInt("tree_amt");
+            double price = resultSet.getDouble("price");
+            String start_time = resultSet.getString("start_time");
+            String end_time = resultSet.getString("end_time");
+            String status = resultSet.getString("status");
+            
+            quote quotes = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
+            listUserQuote.add(quotes);
+            
+        }        
+        resultSet.close();
+        return listUserQuote;
+    }
+    
+    public List<quote> listPendingQuotes(String email) throws SQLException {
+        List<quote> listPendingQuote = new ArrayList<quote>();        
+        String sql = "SELECT * FROM Quote WHERE email=? and status='Pending'";      
               
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, email);
@@ -84,6 +108,30 @@ public class quoteDAO
         }        
         resultSet.close();
         return listPendingQuote;
+    }
+    
+    public List<quote> listRejectedQuotes(String email) throws SQLException {
+        List<quote> listRejectedQuote = new ArrayList<quote>();        
+        String sql = "SELECT * FROM Quote WHERE email=? and status='Rejected'";      
+              
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+         
+        while (resultSet.next()) {
+            int quoteID = resultSet.getInt("quoteID");
+            int tree_amt = resultSet.getInt("tree_amt");
+            double price = resultSet.getDouble("price");
+            String start_time = resultSet.getString("start_time");
+            String end_time = resultSet.getString("end_time");
+            String status = resultSet.getString("status");
+            
+            quote quotes = new quote(quoteID, tree_amt, price, start_time, end_time, status, email);
+            listRejectedQuote.add(quotes);
+            
+        }        
+        resultSet.close();
+        return listRejectedQuote;
     }
     
     public void insert(quote quotes) throws SQLException {

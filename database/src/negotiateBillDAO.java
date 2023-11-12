@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Servlet implementation class Connect
  */
-@WebServlet("/userDAO")
+@WebServlet("/negotiateBillDAO")
 public class negotiateBillDAO 
 {
 	private static final long serialVersionUID = 1L;

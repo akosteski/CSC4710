@@ -1,36 +1,45 @@
 public class negotiateQuote 
 {
-		protected int negotiateID;
+		protected int negotiateQID;
 		protected int quoteID;
 	 	protected String email;
 
 	 	protected double price;
 	 	protected String start_time;
 	 	protected String end_time;
-	 	protected String notes;
+	 	protected String msg;
+	 	protected String date;
 	 	
 	    //constructors
 	    public negotiateQuote() {}
 	 
-	    public negotiateQuote(int quoteID) { this.quoteID = quoteID;}
+	    public negotiateQuote(int negotiateQID) { this.negotiateQID = negotiateQID;}
 	    
-	    public negotiateQuote(int quoteID, double price, String start_time, String end_time, String status, String email) {
-	    	this(price, start_time, end_time, status, email);
-	    	this.quoteID = quoteID;
+	    public negotiateQuote(int negotiateQID, int quoteID, double price, String start_time, String end_time, String email, String msg, String date) {
+	    	this(quoteID, price, start_time, end_time, email, msg, date);
+	    	this.negotiateQID = negotiateQID;
 	    }
 	 
 	
-	    public negotiateQuote(double price, String start_time, String end_time, String status, String email) {
+	    public negotiateQuote(int quoteID, double price, String start_time, String end_time, String email, String msg, String date) {
+	    	this.quoteID = quoteID;
 	    	this.price = price;
 	    	this.start_time = start_time;
 	    	this.end_time = end_time;
-	    	this.status = status;
+	    	this.quoteID = quoteID;
 	    	this.email = email;
+	    	this.msg = msg;
+	    	this.date = date;
 
 	  
 	    }
 	    
 	   //getter and setter methods
+	    
+	    public int getNegotiateID() { return negotiateQID;}
+	    
+	    public void setNegotiateID(int negotiateQID) { this.negotiateQID = negotiateQID; }
+	    
 	    public int getQuoteID() { return quoteID;}
 	    
 	    public void setQuoteID(int quoteID) { this.quoteID = quoteID; }
@@ -50,5 +59,13 @@ public class negotiateQuote
 	    public String getEmail() { return email; }
 	    
 	    public void setEmail(String email) { this.email = email; }
+	    
+	    public String getMsg() { return msg; }
+	    
+	    public void setMsg(String msg) { this.msg = msg; }
+	    
+	    public String getDate() { return date; }
+	    
+	    public void setDate(String date) { this.date = date; }
 	    
 	}

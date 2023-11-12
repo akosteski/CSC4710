@@ -20,6 +20,18 @@
 				<input type="submit" value="Request a Quote"/>
 
 		</form></br></br>
+		<form action="" method="post">
+			<table border="1" cellpadding="5">
+
+				<input type="submit" value="View all quotes"/>
+
+		</form></br></br>
+		<form action="" method="post">
+			<table border="1" cellpadding="5">
+
+				<input type="submit" value="View "/>
+
+		</form></br></br>
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> You can find quotes you've made here.</p>
 		 </center>

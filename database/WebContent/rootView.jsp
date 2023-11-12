@@ -92,7 +92,7 @@
                     <td><c:out value="${trees.height}" /></td>
                     <td><c:out value="${trees.address} ${trees.city} ${trees.state} ${trees.zipcode}" /></td>
                     <td><c:out value="${trees.distance}" /></td>
-                    <td><a href="${trees.image1}"> image 1</a> <a href="${trees.image2}"> image 2</a> <a href="${trees.image3}"> image 3</a> </td>
+                    <td><a href="${trees.image1}" target="_blank"> image 1</a> <a href="${trees.image2}" target="_blank"> image 2</a> <a href="${trees.image3}" target="_blank"> image 3</a> </td>
                     <td><c:out value="${trees.notes}" /></td>
                     <td><c:out value="${trees.date}" /></td>
 

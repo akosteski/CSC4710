@@ -12,17 +12,19 @@
 <center><h1>Welcome! You have been successfully logged in to David Smith</h1> </center>
 <body>
 	 <center>
-	 	<a href="https:google.com">
-  		<button>Quote Requests</button>
-		</a><br><br>
-		
-		<a href="https:google.com">
-  		<button>Order</button>
-		</a><br><br>
-		
-		<a href="https:google.com">
+	 <div>
+  		<form action = "viewQuotes" method = "post">
+  		<input type="submit" value="View All Quotes"/>
+  		</form>
+	</div>
+	<br>
+	<div>
+		<button>Order</button>
+	</div>
+	<br>
+	<div>
   		<button>Bills</button>
-		</a><br><br><br><br><br>
+	</div>
 	 	
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> You can find all the quotes a client has requested.</p>
