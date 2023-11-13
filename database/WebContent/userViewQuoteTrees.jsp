@@ -18,8 +18,12 @@
 	<div align = "center">
 	<form action="viewMessages" >
 	<button>View Messages for this Quote</button>
-	</a>
 	</form>
+	<br>
+	<form action="finalizeRequest" >
+	<button>Cancel this Request</button>
+	</form>
+	
 	<table border="1" cellpadding="6">
 	<caption><h3>Selected Request: ${QuoteID}</h3></caption>
             <tr>

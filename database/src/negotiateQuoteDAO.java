@@ -108,11 +108,11 @@ public class negotiateQuoteDAO
         preparedStatement.close();
     }
     
-    public boolean delete(int negQs) throws SQLException {
-        String sql = "DELETE FROM NegotiateQuote WHERE negotiateQID = ?";        
+    public boolean delete(int quoteID) throws SQLException {
+        String sql = "DELETE FROM NegotiateQuote WHERE quoteID = ?";        
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, negQs);
+        preparedStatement.setInt(1, quoteID);
          
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();

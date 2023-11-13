@@ -25,6 +25,14 @@ public class quote
 	    	this(tree_amt, price, start_time, end_time, status, email);
 	    	this.quoteID = quoteID;
 	    }
+	    
+	    public quote(int quoteID, double price, String start_time, String end_time, String status) {
+	    	this.price = price;
+	    	this.start_time = start_time;
+	    	this.end_time = end_time;
+	    	this.status = status;
+	    	this.quoteID = quoteID;
+	    }
 	 
 	
 	    public quote(int tree_amt, double price, String start_time, String end_time, String status, String email) {
@@ -34,8 +42,6 @@ public class quote
 	    	this.end_time = end_time;
 	    	this.status = status;
 	    	this.email = email;
-
-	  
 	    }
 	    
 	   //getter and setter methods

@@ -126,12 +126,12 @@ public class treeDAO
         preparedStatement.close();
     }
     
-    public boolean delete(int treeID) throws SQLException {
-        String sql = "DELETE FROM Tree WHERE treeID = ?";        
+    public boolean delete(int quoteID) throws SQLException {
+        String sql = "DELETE FROM Tree WHERE quoteID = ?";        
         
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, treeID);
+        preparedStatement.setInt(1, quoteID);
          
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
@@ -197,40 +197,25 @@ public class treeDAO
         return tree;
     }
     
-    public tree countTree(int treeID, int quoteID) throws SQLException {
+   /* public tree countTree(int quoteID) throws SQLException {
     	tree tree = null;
     	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "Update Quote set tree_amt = @count where quoteID=?; ";
     	
-        
-        
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, treeID);
+        preparedStatement.setInt(1, quoteID);
         
          
         ResultSet resultSet = preparedStatement.executeQuery();
          
         if (resultSet.next()) {
-            double width = resultSet.getDouble("width");
-            double height = resultSet.getDouble("height");
-            String address = resultSet.getString("address");
-            String city = resultSet.getString("city");
-            String state = resultSet.getString("state"); 
-            String zipcode = resultSet.getString("zipcode"); 
-            double distance = resultSet.getDouble("distance");
-            String image1 = resultSet.getString("image1");
-            String image2 = resultSet.getString("image2");
-            String image3 = resultSet.getString("image3");
-            String notes = resultSet.getString("notes"); 
-            String date = resultSet.getString("date");
-            
-            tree = new tree(treeID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
+            //int count = @count;            
         }
          
         resultSet.close();
         statement.close();
          
         return tree;
-    }
+    } */
     
     public void init() throws SQLException, FileNotFoundException, IOException{
     	

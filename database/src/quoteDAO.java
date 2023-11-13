@@ -150,7 +150,7 @@ public class quoteDAO
     }
     
     public boolean delete(int quoteID) throws SQLException {
-        String sql = "DELETE * FROM Quote WHERE quoteID = ?";        
+        String sql = "DELETE FROM Quote WHERE quoteID = ?";        
         
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);

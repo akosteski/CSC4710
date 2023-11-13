@@ -146,6 +146,12 @@ public class ControlServlet extends HttpServlet {
         	case "/msgGoBack":
         		System.out.println("Gotta have this ugh");
         		msgGoBack(request, response);
+        		break;
+        		
+        	case "/finalizeRequest":
+        		System.out.println("Going to finalize this request");
+        		reqFinal(request,response);
+        		break;
                  
 	    	}
 	    }
@@ -417,6 +423,9 @@ public class ControlServlet extends HttpServlet {
 		    	
 		    	negotiateQuote negQs = new negotiateQuote(quoteID, email, price, start_time, end_time, msg);
 		    	negotiateQuoteDAO.insert(negQs);
+		    	
+		    	quote quotes = new quote(quoteID, price, start_time, end_time, status);
+		    	quoteDAO.update(quotes);
 	    	}
 	    	
 	    	System.out.println("Updating quote status");
@@ -447,6 +456,16 @@ public class ControlServlet extends HttpServlet {
 	    	
 	    	request.getRequestDispatcher("messageBoard.jsp").forward(request, response);
 	    	
+	    }
+	    
+	    private void reqFinal(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quoteID = currentQuote;
+	    	
+	    	negotiateQuoteDAO.delete(quoteID);
+	    	treeDAO.delete(quoteID);
+	    	quoteDAO.delete(quoteID);
+	    	
+	    	listUserQuotes(request, response);
 	    }
 	    
 }
