@@ -14,9 +14,9 @@
 	<a href="activitypage.jsp"target ="_self" >Return to Home</a><br><br> 
 
 <h1>Request a Quote Form</h1>
-    <div align="center">
-    <div align="center">
-    	<form action="generateQuote" method="post">
+   <div align="center">
+     <div align="center">
+   	<form action="generateQuote" method="post">
     	<input type = "submit" value = "Generate a Quote"/>
 	</form>
 	<br>

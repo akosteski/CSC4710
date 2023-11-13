@@ -326,16 +326,11 @@ public class ControlServlet extends HttpServlet {
 	    	quoteDAO.insert(quotes);
 	    	
 	    	requestQuoteStart(request, response);
-	    	//request.getRequestDispatcher("RequestQuote.jsp").forward(request, response);
 	    	
 	    }
 	    
 	    private void makeTree(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
 	    	String email = currentUser;
-	    	
-	    	//int quoteID = Integer.parseInt(request.getParameter("quoteID"));
-	    	
-	    	//currentQuote = quoteID;
 	    	
 	    	int quoteID = currentQuote;
 	    	
@@ -368,6 +363,7 @@ public class ControlServlet extends HttpServlet {
             System.out.println("Sending info to the Tree");
             tree trees = new tree(width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date, quoteID);
             treeDAO.insert(trees);
+            treeDAO.countTree(quoteID);
             //treeDAO.update(trees);
             
             requestQuoteStart(request, response);

@@ -17,7 +17,7 @@
 <h1>Trees in this Request</h1>
 	<div align = "center">
 	<a href="initialResponse.jsp" >
-	<button>Send an Initial Response</button>
+	<button>Update this Request</button>
 	</a>
 	<br><br>
 	<form action="viewMessages" >

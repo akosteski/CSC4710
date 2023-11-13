@@ -197,25 +197,17 @@ public class treeDAO
         return tree;
     }
     
-   /* public tree countTree(int quoteID) throws SQLException {
+   public tree countTree(int quoteID) throws SQLException {
     	tree tree = null;
     	String sql = "SELECT COUNT(*) INTO @count FROM Tree WHERE quoteID = ?; " + "Update Quote set tree_amt = @count where quoteID=?; ";
     	
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setInt(1, quoteID);
-        
-         
-        ResultSet resultSet = preparedStatement.executeQuery();
-         
-        if (resultSet.next()) {
-            //int count = @count;            
-        }
-         
-        resultSet.close();
-        statement.close();
+                 
+        preparedStatement.close();
          
         return tree;
-    } */
+    } 
     
     public void init() throws SQLException, FileNotFoundException, IOException{
     	

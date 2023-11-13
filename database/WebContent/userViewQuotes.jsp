@@ -38,7 +38,7 @@
                 <tr style="text-align:center">
                     <td><c:out value="${quotes.quoteID}" /></td>
                     <td><c:out value="${quotes.tree_amt}"/></td>
-                    <td><c:out value="${quotes.price}" /></td>
+                    <td>$<c:out value="${quotes.price}" /></td>
                     <td><c:out value="${quotes.start_time}" /></td>
                     <td><c:out value="${quotes.end_time}" /></td>
                     <td><c:out value="${quotes.status}" /></td>
