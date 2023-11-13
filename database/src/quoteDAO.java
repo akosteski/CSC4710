@@ -162,17 +162,32 @@ public class quoteDAO
     }
      
     public boolean update(quote quotes) throws SQLException {
-        String sql = "update Quote set tree_amt=?, price=?, start_time=?, end_time=?, status=?, where quoteID=?";
+        String sql = "update Quote set tree_amt=?, price=?, start_time=?, end_time=?, status=? where quoteID=?";
         
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, quotes.getQuoteID());
-        preparedStatement.setInt(2, quotes.getTree_amt());
-		preparedStatement.setDouble(3, quotes.getPrice());
-		preparedStatement.setString(4, quotes.getStart_time());
-		preparedStatement.setString(5, quotes.getEnd_time());
-		preparedStatement.setString(6, quotes.getStatus());
-		preparedStatement.setString(7, quotes.getEmail());		
+        preparedStatement.setInt(1, quotes.getTree_amt());
+		preparedStatement.setDouble(2, quotes.getPrice());
+		preparedStatement.setString(3, quotes.getStart_time());
+		preparedStatement.setString(4, quotes.getEnd_time());
+		preparedStatement.setString(5, quotes.getStatus());
+        preparedStatement.setInt(6, quotes.getQuoteID());
+
+		//preparedStatement.setString(7, quotes.getEmail());		
+	
+         
+        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        return rowUpdated;     
+    }
+    
+    public boolean updateStatus(int quoteID, String status) throws SQLException {
+        String sql = "update Quote set status=? where quoteID=?";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, status);
+		preparedStatement.setInt(2, quoteID);
+				
 	
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
@@ -213,7 +228,7 @@ public class quoteDAO
 					        ("CREATE TABLE if not exists Quote( " +
 					            "quoteID INTEGER NOT NULL AUTO_INCREMENT, " +
 					        	"tree_amt INTEGER DEFAULT 0, " +
-					        	"price DECIMAL(5,2) DEFAULT 0, " +
+					        	"price DECIMAL(7,2) DEFAULT 0, " +
 					        	"email VARCHAR(50) NOT NULL, " +
 					        	"contractor VARCHAR(50) DEFAULT 'davidsmith@gmail.com', " +
 					            "start_time DATE DEFAULT '1999-12-31', " +

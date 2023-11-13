@@ -14,13 +14,18 @@
   		</form>
 
 <div align = "center"> 
-<h1>Trees in this Quote</h1>
+<h1>Trees in this Request</h1>
 	<div align = "center">
-	<form action = "sendResponse" method = "post">
-	
+	<a href="initialResponse.jsp" >
+	<button>Send an Initial Response</button>
+	</a>
+	<br><br>
+	<form action="viewMessages" >
+	<button>View Messages for this Quote</button>
+	</a>
 	</form>
 	<table border="1" cellpadding="6">
-	<caption><h3>Selected Quote: ${QuoteID}</h3></caption>
+	<caption><h3>Selected Request: ${QuoteID}</h3></caption>
             <tr>
             	<th>Tree ID</th>
                 <th>Width (meters)</th>

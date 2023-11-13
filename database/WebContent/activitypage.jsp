@@ -20,7 +20,7 @@
 				<input type="submit" value="Request a Quote"/>
 
 		</form></br></br>
-		<form action="" method="post">
+		<form action="viewQuotesUser" method="post">
 			<table border="1" cellpadding="5">
 
 				<input type="submit" value="View all quotes"/>

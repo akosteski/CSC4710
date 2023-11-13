@@ -38,84 +38,100 @@ public class negotiateQuoteDAO
 	 * @see HttpServlet#HttpServlet()
      */
     
-    public List<negQ> listAllNQ() throws SQLException {
-        List<negQ> listUser = new ArrayList<negQ>();        
+    public List<negotiateQuote> listAllNQ() throws SQLException {
+        List<negotiateQuote> listNegQ = new ArrayList<negotiateQuote>();        
         String sql = "SELECT * FROM NegotiateQuote";   
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
          
         while (resultSet.next()) {
+            int negotiateQID = resultSet.getInt("negotiateQID");
+            int quoteID = resultSet.getInt("quoteID");
             String email = resultSet.getString("email");
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
-            String password = resultSet.getString("password");
-            String birthday = resultSet.getString("birthday");
-            String adress_street_num = resultSet.getString("adress_street_num"); 
-            String adress_street = resultSet.getString("adress_street"); 
-            String adress_city = resultSet.getString("adress_city"); 
-            String adress_state = resultSet.getString("adress_state"); 
-            String adress_zip_code = resultSet.getString("adress_zip_code"); 
-            String credit = resultSet.getString("credit");
-            String phone = resultSet.getString("phone");
+            double price = resultSet.getDouble("price");
+            String start_time = resultSet.getString("start_time");
+            String end_time = resultSet.getString("end_time"); 
+            String msg = resultSet.getString("msg"); 
+            String date = resultSet.getString("date"); 
 
-             
-            negQ negQs = new negQ(email,firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit, phone);
-            listUser.add(negQs);
+            negotiateQuote negQs = new negotiateQuote(negotiateQID, quoteID, email, price, start_time, end_time, msg, date);
+            listNegQ.add(negQs);
             
         }        
         resultSet.close();
         
                 
-        return listUser;
+        return listNegQ;
     }
     
-    public void insert(user users) throws SQLException {
-		String sql = "insert into User(email, firstName, lastName, password, birthday,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,credit,phone) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    public List<negotiateQuote> listConvo(int quoteID) throws SQLException {
+        List<negotiateQuote> listConvo = new ArrayList<negotiateQuote>();        
+        String sql = "SELECT * FROM NegotiateQuote where quoteID=?";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setInt(1, quoteID);
+        ResultSet resultSet = preparedStatement.executeQuery();
+         
+        while (resultSet.next()) {
+            int negotiateQID = resultSet.getInt("negotiateQID");
+            String email = resultSet.getString("email");
+            double price = resultSet.getDouble("price");
+            String start_time = resultSet.getString("start_time");
+            String end_time = resultSet.getString("end_time"); 
+            String msg = resultSet.getString("msg"); 
+            String date = resultSet.getString("date"); 
+
+            negotiateQuote quoteConvo = new negotiateQuote(negotiateQID, quoteID, email, price, start_time, end_time, msg, date);
+            listConvo.add(quoteConvo);
+            
+        }        
+        resultSet.close();
+        
+                
+        return listConvo;
+    }
+    
+    public void insert(negotiateQuote negQs) throws SQLException {
+    	
+		String sql = "insert into NegotiateQuote(quoteID, email, price, start_time, end_time, msg) values (?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-			preparedStatement.setString(1, users.getEmail());
-			preparedStatement.setString(2, users.getFirstName());
-			preparedStatement.setString(3, users.getLastName());
-			preparedStatement.setString(4, users.getPassword());
-			preparedStatement.setString(5, users.getBirthday());
-			preparedStatement.setString(6, users.getAdress_street_num());		
-			preparedStatement.setString(7, users.getAdress_street());		
-			preparedStatement.setString(8, users.getAdress_city());		
-			preparedStatement.setString(9, users.getAdress_state());		
-			preparedStatement.setString(10, users.getAdress_zip_code());		
-			preparedStatement.setString(11, users.getCredit());
-			preparedStatement.setString(12, users.getPhone());
+			//preparedStatement.setInt(1, negQs.getNegotiateID());
+			preparedStatement.setInt(1, negQs.getQuoteID());
+			preparedStatement.setString(2, negQs.getEmail());
+			preparedStatement.setDouble(3, negQs.getPrice());
+			preparedStatement.setString(4, negQs.getStart_time());
+			preparedStatement.setString(5, negQs.getEnd_time());		
+			preparedStatement.setString(6, negQs.getMsg());		
+			//preparedStatement.setString(8, negQs.getDate());		
 
 		preparedStatement.executeUpdate();
         preparedStatement.close();
     }
     
-    public boolean delete(String email) throws SQLException {
-        String sql = "DELETE FROM User WHERE email = ?";        
+    public boolean delete(int negQs) throws SQLException {
+        String sql = "DELETE FROM NegotiateQuote WHERE negotiateQID = ?";        
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
+        preparedStatement.setInt(1, negQs);
          
         boolean rowDeleted = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
         return rowDeleted;     
     }
      
-    public boolean update(user users) throws SQLException {
-        String sql = "update User set firstName=?, lastName =?,password = ?,birthday=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, credit=?, phone=?, where email = ?";
+    public boolean update(negotiateQuote negQs) throws SQLException {
+        String sql = "update NegotiateQuote set price=?, start_time=?, end_time= ?, msg=?, date=? where negotiateQID= ?";
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, users.getEmail());
-		preparedStatement.setString(2, users.getFirstName());
-		preparedStatement.setString(3, users.getLastName());
-		preparedStatement.setString(4, users.getPassword());
-		preparedStatement.setString(5, users.getBirthday());
-		preparedStatement.setString(6, users.getAdress_street_num());		
-		preparedStatement.setString(7, users.getAdress_street());		
-		preparedStatement.setString(8, users.getAdress_city());		
-		preparedStatement.setString(9, users.getAdress_state());		
-		preparedStatement.setString(10, users.getAdress_zip_code());		
-		preparedStatement.setString(11, users.getCredit());
-		preparedStatement.setString(12, users.getPhone());
+        preparedStatement.setInt(1, negQs.getNegotiateID());
+		preparedStatement.setInt(2, negQs.getQuoteID());
+		preparedStatement.setString(3, negQs.getEmail());
+		preparedStatement.setDouble(4, negQs.getPrice());
+		preparedStatement.setString(5, negQs.getStart_time());
+		preparedStatement.setString(6, negQs.getEnd_time());		
+		preparedStatement.setString(7, negQs.getMsg());		
+		preparedStatement.setString(8, negQs.getDate());		
+
          
         boolean rowUpdated = preparedStatement.executeUpdate() > 0;
         preparedStatement.close();
@@ -185,18 +201,18 @@ public class negotiateQuoteDAO
 		        	"negotiateQID INTEGER NOT NULL AUTO_INCREMENT, " +
 		            "quoteID INTEGER NOT NULL, " +
 		        	"email VARCHAR(50) NOT NULL, " +
-		        	"price DECIMAL(5,2) DEFAULT 0, " +
-		            "start_time DATE DEFAULT '1999-12-31', " +
-		            "end_time DATE DEFAULT '1999-12-31', " +
+		        	"price DECIMAL(7,2) DEFAULT 0, " +
+		            "start_time DATE DEFAULT '0001-01-01', " +
+		            "end_time DATE DEFAULT '0001-01-01', " +
 		            "msg VARCHAR(500)," +
-		            "date DATE DEFAULT GETDATE(), " +
+		            "date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 		            "PRIMARY KEY (negotiateQID), " +
 		            "FOREIGN KEY (quoteID) REFERENCES Quote(quoteID)," +
 		            "FOREIGN KEY (email) REFERENCES User(email));" )
 		        
 				};
-        String[] TUPLES = {("insert into NegotiateQuote(negotiateID, quoteID, email, price, start_time, end_time, msg, date)"+
-        			"values ();")
+        String[] TUPLES = {("insert into NegotiateQuote(quoteID, email, price, start_time, end_time, msg, date)"+
+        			"values (28, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default);")
 			    			};
         
         //for loop to put these in database

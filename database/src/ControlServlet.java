@@ -25,6 +25,7 @@ public class ControlServlet extends HttpServlet {
 	    private userDAO userDAO;
 	    private quoteDAO quoteDAO;
 	    private treeDAO treeDAO;
+	    private negotiateQuoteDAO negotiateQuoteDAO;
 	    private String currentUser;
 	    private int currentQuote;
 	    private HttpSession session=null;
@@ -40,6 +41,7 @@ public class ControlServlet extends HttpServlet {
 		    	quoteDAO = new quoteDAO(dbConnect.getDbConnection());
 		    	userDAO = new userDAO(dbConnect.getDbConnection());
 		    	treeDAO = new treeDAO(dbConnect.getDbConnection());
+		    	negotiateQuoteDAO = new negotiateQuoteDAO(dbConnect.getDbConnection());
 		    	currentUser= "";
 		    	currentQuote = 0;
 	    	} catch (SQLException e) {
@@ -67,6 +69,7 @@ public class ControlServlet extends HttpServlet {
         		userDAO.init();
         		quoteDAO.init(); //quote table
         		treeDAO.init(); //tree table
+        		negotiateQuoteDAO.init(); //this one's pretty self explanatory
         		System.out.println("Database successfully initialized!");
         		rootPage(request,response,"initialize");
         		break;
@@ -100,6 +103,11 @@ public class ControlServlet extends HttpServlet {
         		createTree(request, response);
         		break;
         		
+        	case "/selectRequest":
+        		System.out.println("request has been selected");
+        		selectReq(request, response);
+        		break;
+        		
         	case "/selectQuote":
         		System.out.println("quote has been selected");
         		selectQuote(request, response);
@@ -114,12 +122,30 @@ public class ControlServlet extends HttpServlet {
         		System.out.println("Showing all quotes for David Smith...");
         		listAllQuotes(request, response);
         		break;
-        		
-        	case "/sendResponse":
-        		System.out.println("Sending a response");
-        		sendResponse(request, response);
+        	
+        	case "/viewQuotesUser":
+        		System.out.println("Showing all quotes for the user");
+        		listUserQuotes(request, response);
         		break;
         		
+        	case "/viewMessages":
+        		System.out.println("Showing messages for this quote request");
+        		viewMessages(request, response);
+        		break;
+        		
+        	case "/sendFirstResponse":
+        		System.out.println("Sending an initial response");
+        		sendInitResponse(request, response);
+        		break;
+        		
+        	case "/sendResponse":
+        		System.out.println("Sending response...");
+        		sendResponse(request, response);
+        		break;
+        	
+        	case "/msgGoBack":
+        		System.out.println("Gotta have this ugh");
+        		msgGoBack(request, response);
                  
 	    	}
 	    }
@@ -172,6 +198,7 @@ public class ControlServlet extends HttpServlet {
 				 session = request.getSession();
 				 session.setAttribute("username", email);
 				 currentUser = email;
+				 System.out.println("The current user is: " + currentUser);
 				 request.getRequestDispatcher("DavidSmithview.jsp").forward(request, response);
 	
 	    	 }
@@ -261,15 +288,28 @@ public class ControlServlet extends HttpServlet {
 	    	String email = currentUser;
 	    	
 	    	currentQuote = quoteID;
+	    	System.out.println("Displaying trees under quote " + quoteID);
+	    	request.setAttribute("listQuoteTree", treeDAO.listQuoteTrees(quoteID));
+	    	request.setAttribute("QuoteID", quoteID);
 	    	
 	    	if (email.equals("davidsmith@gmail.com")) {
-	    		System.out.println("Displaying trees under quote " + quoteID);
-		    	request.setAttribute("listQuoteTree", treeDAO.listQuoteTrees(quoteID));
-		    	request.setAttribute("QuoteID", quoteID);
 		    	request.getRequestDispatcher("viewQuoteTrees.jsp").forward(request, response);
 	    	}
 	    	
-	    	else { requestQuoteStart(request, response); }
+	    	else { 
+	    		request.getRequestDispatcher("userViewQuoteTrees.jsp").forward(request, response);
+	    		
+	    	}
+	    	
+	    }
+	    
+	    private void selectReq(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quoteID = Integer.parseInt(request.getParameter("quoteID"));
+	    	//String email = currentUser;
+	    	
+	    	currentQuote = quoteID;
+	    	
+	    	requestQuoteStart(request, response);
 	    	
 	    }
 	    
@@ -334,8 +374,78 @@ public class ControlServlet extends HttpServlet {
 	    	request.getRequestDispatcher("davidViewQuotes.jsp").forward(request, response);
 	    }
 	    
+	    private void listUserQuotes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	String email = currentUser;
+	    	
+	    	request.setAttribute("listUserQuote", quoteDAO.listUserQuotes(email));
+	    	
+	    	request.getRequestDispatcher("userViewQuotes.jsp").forward(request, response);
+	    }
+	    
+	    private void msgGoBack(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	String email = currentUser;
+	    	
+	    	if (email.equals("davidsmith@gmail.com")) {
+	    		listAllQuotes(request, response);
+	    	}
+	    	
+	    	else {
+	    		listUserQuotes(request, response);
+	    	}
+	    }
+	    
+	    private void sendInitResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quoteID = currentQuote;
+	    	String email = currentUser;
+	    	String status = request.getParameter("status");
+	    	String msg = request.getParameter("msg");
+	    	
+	    	if (status.equals("Rejected")) {
+	    		System.out.println(currentUser);
+	    		System.out.println("This quote has been rejected");
+	    		negotiateQuote reject = new negotiateQuote(quoteID, email, msg);
+	    		negotiateQuoteDAO.insert(reject);
+	    	}
+	    	
+	    	else {
+	    		System.out.println("This quote has been accepted");
+
+	    		double price = Double.parseDouble(request.getParameter("price"));
+		    	String start_time = request.getParameter("start_time");
+		    	String end_time = request.getParameter("end_time");
+		    	//String date = request.getParameter("date");
+		    	
+		    	negotiateQuote negQs = new negotiateQuote(quoteID, email, price, start_time, end_time, msg);
+		    	negotiateQuoteDAO.insert(negQs);
+	    	}
+	    	
+	    	System.out.println("Updating quote status");
+	    	quoteDAO.updateStatus(quoteID, status);
+	    	
+	    	listAllQuotes(request, response);
+	    }
+	    
 	    private void sendResponse(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    	int quote = currentQuote;
+	    	int quoteID = currentQuote;
+	    	String email = currentUser;
+	    	//String status// = request.getParameter("status");
+	    	String msg = request.getParameter("msg");
+	    	
+
+    		negotiateQuote respond = new negotiateQuote(quoteID, email, msg);
+    		negotiateQuoteDAO.insert(respond);
+	    	
+	    	
+	    	viewMessages(request, response);
+	    }
+	    
+	    private void viewMessages(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+	    	int quoteID = currentQuote;
+	    	
+	    	request.setAttribute("QuoteID", quoteID);
+	    	request.setAttribute("listMessage", negotiateQuoteDAO.listConvo(quoteID));
+	    	
+	    	request.getRequestDispatcher("messageBoard.jsp").forward(request, response);
 	    	
 	    }
 	    

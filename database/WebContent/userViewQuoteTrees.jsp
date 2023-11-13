@@ -6,38 +6,22 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Request Quote Page</title>
+<title>View Trees in this Quote</title>
 </head>
 <body>
+<form action = "viewQuotesUser" method = "post">
+  		<input type="submit" value="Back to View Quotes"/>
+  		</form>
 
-<div align = "center">
-	<a href="activitypage.jsp"target ="_self" >Return to Home</a><br><br> 
-
-<h1>Request a Quote Form</h1>
-    <div align="center">
-    <div align="center">
-    	<form action="generateQuote" method="post">
-    	<input type = "submit" value = "Generate a Quote"/>
-	</form>
-	<br>
-	</div>
-	
+<div align = "center"> 
+<h1>Trees in this Request</h1>
 	<div align = "center">
-	<form action="selectRequest" method="post">
-	<label>Select the quote you would like to add a tree to.</label>
-    	<select name = "quoteID">
- 			<c:forEach items = "${listUserQuote}" var="quotes" varStatus="loop">
- 				<option value="${quotes.quoteID}"><c:out value="${quotes.quoteID}" /></option>
- 			</c:forEach>
- 		</select>
-	<input type = "submit" value = "Select Quote"/>
+	<form action="viewMessages" >
+	<button>View Messages for this Quote</button>
+	</a>
 	</form>
-	<br>
-	<form action="makeTree" method ="post">
-	<input type = "submit" value = "Add a Tree to this Quote!">
 	<table border="1" cellpadding="6">
-	<caption><h2>Trees in this Quote</h2></caption>
-	<caption><h3>Selected Quote: ${QuoteID}</h3></caption>
+	<caption><h3>Selected Request: ${QuoteID}</h3></caption>
             <tr>
             	<th>Tree ID</th>
                 <th>Width (meters)</th>
@@ -61,8 +45,6 @@
                 </tr>
             </c:forEach>
         </table>
-        </form>
-	</div>
 	</div>
 
 </body>

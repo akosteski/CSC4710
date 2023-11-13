@@ -71,15 +71,15 @@
 					</td>	
 				</tr>
 				<tr>
-					<th>Notes: </th>
-					<td align="center" colspan="30">
-						<input type="text" name="notes" size="45" value="any notes?" onfocus="this.value=''">
-					</td>
-				</tr>
-				<tr>
 					<th>Date: </th>
 					<td align="center" colspan="3">
 						<input type="text" name="date" size="45" value="YYYY-MM-DD" onfocus="this.value=''">
+					</td>
+				</tr>
+				<tr>
+					<th>Notes: </th>
+					<td align="center" colspan="30">
+						<textarea  name="notes" rows = "4" cols = "45" onfocus="this.value=''">Type Your Note Here...</textarea>
 					</td>
 				</tr>
 				<tr>

@@ -15,22 +15,28 @@ public class negotiateQuote
 	 
 	    public negotiateQuote(int negotiateQID) { this.negotiateQID = negotiateQID;}
 	    
-	    public negotiateQuote(int negotiateQID, int quoteID, double price, String start_time, String end_time, String email, String msg, String date) {
-	    	this(quoteID, price, start_time, end_time, email, msg, date);
-	    	this.negotiateQID = negotiateQID;
-	    }
-	 
-	
-	    public negotiateQuote(int quoteID, double price, String start_time, String end_time, String email, String msg, String date) {
-	    	this.quoteID = quoteID;
-	    	this.price = price;
-	    	this.start_time = start_time;
-	    	this.end_time = end_time;
+	    public negotiateQuote(int quoteID, String email, String msg) {
 	    	this.quoteID = quoteID;
 	    	this.email = email;
 	    	this.msg = msg;
+    	}
+	    
+	    public negotiateQuote(int negotiateQID, int quoteID, String email, double price, String start_time, String end_time, String msg, String date) {
+	    	this(quoteID, email, price, start_time, end_time, msg);
+	    	this.negotiateQID = negotiateQID;
 	    	this.date = date;
-
+	    }
+	    
+	    
+	 
+	
+	    public negotiateQuote(int quoteID, String email, double price, String start_time, String end_time, String msg) {
+	    	this.quoteID = quoteID;
+	    	this.email = email;
+	    	this.price = price;
+	    	this.start_time = start_time;
+	    	this.end_time = end_time;
+	    	this.msg = msg;
 	  
 	    }
 	    

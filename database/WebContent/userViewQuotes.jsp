@@ -6,17 +6,17 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>View All Requests</title>
+<title>View Your Quotes</title>
 </head>
 <body>
-<a href="DavidSmithview.jsp"target ="_self" > Back to Home</a><br><br> 
+<a href="activitypage.jsp"target ="_self" > Back to Home</a><br><br> 
 
-<h1 align = "center">List All Requests</h1>
+<h1 align = "center">View Your Quotes</h1>
     <div align="center">
     <form action="selectQuote" method="post">
 	<label>Select a quote request to view its trees</label>
     	<select name = "quoteID">
- 			<c:forEach items = "${listQuote}" var="quotes" varStatus="loop">
+ 			<c:forEach items = "${listUserQuote}" var="quotes" varStatus="loop">
  				<option value="${quotes.quoteID}"><c:out value="${quotes.quoteID}" /></option>
  			</c:forEach>
  		</select>
@@ -34,7 +34,7 @@
                 <th>Status</th>
                 <th>User Email</th>
             </tr>
-            <c:forEach var="quotes" items="${listQuote}">
+            <c:forEach var="quotes" items="${listUserQuote}">
                 <tr style="text-align:center">
                     <td><c:out value="${quotes.quoteID}" /></td>
                     <td><c:out value="${quotes.tree_amt}"/></td>

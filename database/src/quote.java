@@ -16,6 +16,11 @@ public class quote
 	    
 	    public quote(String email) {this.email = email; }
 	    
+	    public quote(String status, int quoteID) {
+	    	this.status = status;
+	    	this.quoteID = quoteID;
+	    }
+		    
 	    public quote(int quoteID, int tree_amt, double price, String start_time, String end_time, String status, String email) {
 	    	this(tree_amt, price, start_time, end_time, status, email);
 	    	this.quoteID = quoteID;

@@ -18,9 +18,6 @@
   		</form>
 	</div>
 	<br>
-	<div>
-		<button>Order</button>
-	</div>
 	<br>
 	<div>
   		<button>Bills</button>
