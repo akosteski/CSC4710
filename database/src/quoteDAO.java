@@ -240,10 +240,16 @@ public class quoteDAO
 					        
         					};
         String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +
-        					"values (414, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com'), " +
-        					"(28, default, default, '2023-11-10', '2023-11-11', default, 'j@gmail.com'), " +
-        					"(3, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
-        					"(1, default, default, '2023-01-10', '2023-02-11', default, 'sophie@gmail.com');"
+        					"values (1, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com'), " +
+        					"(2, default, default, '2023-11-15', '2023-12-01', default, 'j@gmail.com'), " +
+        					"(3, default, default, '2023-12-17', '2024-01-01', default, 'wallace@gmail.com'), " +
+        					"(4, default, default, '2023-12-10', '2023-12-11', default, 'amelia@gmail.com'), " +
+        					"(5, default, default, '2023-12-10', '2023-12-11', default, 'rey@gmail.com'), " +
+        					"(6, default, default, '2023-12-10', '2023-12-11', default, 'j@gmail.com'), " +
+        					"(7, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(8, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(9, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(10, default, default, '2023-01-10', '2023-02-11', default, 'sophie@gmail.com');"
         					
     		)
 		};
