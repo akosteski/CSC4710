@@ -23,8 +23,8 @@ import java.util.List;
 /**
  * Servlet implementation class Connect
  */
-@WebServlet("/quoteDAO")
-public class quoteDAO 
+@WebServlet("/billDAO")
+public class billDAO 
 {
 	private static final long serialVersionUID = 1L;
 	private Connection connect = null;
@@ -32,13 +32,13 @@ public class quoteDAO
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public quoteDAO(Connection dbInstance) { connect = dbInstance; }
+	public billDAO(Connection dbInstance) { connect = dbInstance; }
 	
 	/** 
 	 * @see HttpServlet#HttpServlet()
      */
     
-    public List<quote> listAllQuotes() throws SQLException {
+    public List<quote> listAllOrders() throws SQLException {
         List<quote> listQuote = new ArrayList<quote>();        
         String sql = "SELECT * FROM Quote";      
               
@@ -220,13 +220,14 @@ public class quoteDAO
         return currentQuote;
     }
     
-    public void init() throws SQLException, FileNotFoundException, IOException{
+    public void init() throws SQLException, FileNotFoundException, IOException {
     	
         statement =  (Statement) connect.createStatement();
         
-        String[] INITIAL = { "drop table if exists Quote; ",
-					        ("CREATE TABLE if not exists Quote( " +
-					            "quoteID INTEGER NOT NULL AUTO_INCREMENT, " +
+        String[] INITIAL = { "drop table if exists Bill; ",
+					        ("CREATE TABLE if not exists Bill( " +
+					        	"billID INTEGER NOT NULL AUTO_INCREMENT, " + 
+					            "orderID INTEGER NOT NULL, " +
 					        	"tree_amt INTEGER DEFAULT 0, " +
 					        	"price DECIMAL(7,2) DEFAULT 0, " +
 					        	"email VARCHAR(50) NOT NULL, " +
@@ -239,7 +240,7 @@ public class quoteDAO
 					            "FOREIGN KEY (contractor) REFERENCES User(email));" )
 					        
         					};
-        String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +
+        String[] TUPLES = {("insert into Bill(orderID, tree_amt, price, start_time, end_time, status, email)" +
         					"values (1, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com'), " +
         					"(2, default, default, '2023-11-15', '2023-12-01', default, 'j@gmail.com'), " +
         					"(3, default, default, '2023-12-17', '2024-01-01', default, 'wallace@gmail.com'), " +

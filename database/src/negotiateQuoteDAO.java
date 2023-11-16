@@ -138,60 +138,6 @@ public class negotiateQuoteDAO
         return rowUpdated;     
     }
     
-    public user getUser(String email) throws SQLException {
-    	user user = null;
-        String sql = "SELECT * FROM User WHERE email = ?";
-         
-         
-        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, email);
-         
-        ResultSet resultSet = preparedStatement.executeQuery();
-         
-        if (resultSet.next()) {
-            String firstName = resultSet.getString("firstName");
-            String lastName = resultSet.getString("lastName");
-            String password = resultSet.getString("password");
-            String birthday = resultSet.getString("birthday");
-            String adress_street_num = resultSet.getString("adress_street_num"); 
-            String adress_street = resultSet.getString("adress_street"); 
-            String adress_city = resultSet.getString("adress_city"); 
-            String adress_state = resultSet.getString("adress_state"); 
-            String adress_zip_code = resultSet.getString("adress_zip_code"); 
-            String credit = resultSet.getString("credit");
-            String phone = resultSet.getString("phone");
-            user = new user(email, firstName, lastName, password, birthday, adress_street_num,  adress_street,  adress_city,  adress_state,  adress_zip_code, credit, phone);
-        }
-         
-        resultSet.close();
-        statement.close();
-         
-        return user;
-    } 
-    
-    public boolean isValid(String email, String password) throws SQLException
-    {
-    	String sql = "SELECT * FROM User";
-    	
-    	statement = (Statement) connect.createStatement();
-    	ResultSet resultSet = statement.executeQuery(sql);
-    	
-    	resultSet.last();
-    	
-    	int setSize = resultSet.getRow();
-    	resultSet.beforeFirst();
-    	
-    	for(int i = 0; i < setSize; i++)
-    	{
-    		resultSet.next();
-    		if(resultSet.getString("email").equals(email) && resultSet.getString("password").equals(password)) {
-    			return true;
-    		}		
-    	}
-    	return false;
-    }
-    
-    
     public void init() throws SQLException, FileNotFoundException, IOException{
     	
         statement =  (Statement) connect.createStatement();
@@ -212,7 +158,16 @@ public class negotiateQuoteDAO
 		        
 				};
         String[] TUPLES = {("insert into NegotiateQuote(quoteID, email, price, start_time, end_time, msg, date)"+
-        			"values (28, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default);")
+        			"values (4, 'davidsmith@gmail.com', default, default, default, 'I am not cutting these trees!', default), " +
+        			"(4, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default), " +
+        			"(4, 'davidsmith@gmail.com', default, default, default, 'No', default), " +
+        			"(4, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default), " +
+        			"(4, 'davidsmith@gmail.com', default, default, default, 'I already said no.', default), " +
+        			"(4, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default), " +
+        			"(4, 'davidsmith@gmail.com', default, default, default, 'NO', default), " +
+        			"(4, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default), " +
+        			"(4, 'davidsmith@gmail.com', default, default, default, 'FINE! I will cut your trees', default), " +
+        			"(4, 'amelia@gmail.com', default, default, default, 'Thank you!', default); ")
 			    			};
         
         //for loop to put these in database

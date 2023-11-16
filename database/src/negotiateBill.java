@@ -1,34 +1,51 @@
 public class negotiateBill 
 {
+		protected int negotiateBID;
 		protected int quoteID;
+	 	protected String email;
+
 	 	protected double price;
 	 	protected String start_time;
 	 	protected String end_time;
-	 	protected String status;
-	 	protected String email;
-	 
+	 	protected String msg;
+	 	protected String date;
+	 	
 	    //constructors
 	    public negotiateBill() {}
 	 
-	    public negotiateBill(int quoteID) { this.quoteID = quoteID;}
+	    public negotiateBill(int negotiateBID) { this.negotiateBID = negotiateBID;}
 	    
-	    public negotiateBill(int quoteID, double price, String start_time, String end_time, String status, String email) {
-	    	this(price, start_time, end_time, status, email);
+	    public negotiateBill(int quoteID, String email, String msg) {
 	    	this.quoteID = quoteID;
+	    	this.email = email;
+	    	this.msg = msg;
+    	}
+	    
+	    public negotiateBill(int negotiateBID, int quoteID, String email, double price, String start_time, String end_time, String msg, String date) {
+	    	this(quoteID, email, price, start_time, end_time, msg);
+	    	this.negotiateBID = negotiateBID;
+	    	this.date = date;
 	    }
+	    
+	    
 	 
 	
-	    public negotiateBill(double price, String start_time, String end_time, String status, String email) {
+	    public negotiateBill(int quoteID, String email, double price, String start_time, String end_time, String msg) {
+	    	this.quoteID = quoteID;
+	    	this.email = email;
 	    	this.price = price;
 	    	this.start_time = start_time;
 	    	this.end_time = end_time;
-	    	this.status = status;
-	    	this.email = email;
-
+	    	this.msg = msg;
 	  
 	    }
 	    
 	   //getter and setter methods
+	    
+	    public int getNegotiateID() { return negotiateBID;}
+	    
+	    public void setNegotiateID(int negotiateBID) { this.negotiateBID = negotiateBID; }
+	    
 	    public int getQuoteID() { return quoteID;}
 	    
 	    public void setQuoteID(int quoteID) { this.quoteID = quoteID; }
@@ -45,12 +62,16 @@ public class negotiateBill
 	    
 	    public void setEnd_time(String end_time) { this.end_time = end_time;}
 	    
-	    public String getStatus() { return status; }
-	    
-	    public void setStatus(String status) { this.status = status; }
-	    
 	    public String getEmail() { return email; }
 	    
 	    public void setEmail(String email) { this.email = email; }
+	    
+	    public String getMsg() { return msg; }
+	    
+	    public void setMsg(String msg) { this.msg = msg; }
+	    
+	    public String getDate() { return date; }
+	    
+	    public void setDate(String date) { this.date = date; }
 	    
 	}
