@@ -12,6 +12,21 @@
 <center><h1>Welcome! You have been successfully logged in to David Smith</h1> </center>
 <body>
 	 <center>
+	 <div>
+  		<form action = "viewQuotes" method = "post">
+  		<input type="submit" value="View Quotes"/>
+  		</form>
+	</div>
+	<br>
+	<div>
+  		<button>View Orders</button>
+	</div>
+	<br>
+	<div>
+  		<button>View Bills</button>
+	</div>
+	<br>
+	 	
 		 <a href="login.jsp"target ="_self" > logout</a><br><br> 
 		 <p> You can find all the quotes a client has requested.</p>
 	 </center>

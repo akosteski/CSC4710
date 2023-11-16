@@ -37,14 +37,14 @@
 				<tr>
 					<th>Phone: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="phone" size="45" value="5555555555" onfocus="this.value=''">
+						<input type="text" name="phone" size="45" value="555-555-5555" onfocus="this.value=''">
 					</td>
 	
 				</tr>
 				<tr>
 					<th>Credit Card: </th>
 					<td align="center" colspan="3">
-						<input type="text" name="cc" size="45" value="0000000000000000" onfocus="this.value=''">
+						<input type="text" name="credit" size="45" value="1111-2222-3333-4444" onfocus="this.value=''">
 					</td>
 	
 				</tr>

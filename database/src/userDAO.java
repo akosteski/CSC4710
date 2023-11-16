@@ -32,57 +32,15 @@ public class userDAO
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
 	
-	public userDAO(){}
+	public userDAO(Connection dbInstance) { connect = dbInstance; }
 	
 	/** 
 	 * @see HttpServlet#HttpServlet()
      */
-    protected void connect_func() throws SQLException {
-    	//uses default connection to the database
-        if (connect == null || connect.isClosed()) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            connect = (Connection) DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/testdb?allowPublicKeyRetrieval=true&useSSL=false&user=john&password=john1234");
-            System.out.println(connect);
-        }
-    }
-    
-    public boolean database_login(String email, String password) throws SQLException{
-    	try {
-    		connect_func("root","pass1234");
-    		String sql = "select * from user where email = ?";
-    		preparedStatement = connect.prepareStatement(sql);
-    		preparedStatement.setString(1, email);
-    		ResultSet rs = preparedStatement.executeQuery();
-    		return rs.next();
-    	}
-    	catch(SQLException e) {
-    		System.out.println("failed login");
-    		return false;
-    	}
-    }
-	//connect to the database 
-    public void connect_func(String username, String password) throws SQLException {
-        if (connect == null || connect.isClosed()) {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                throw new SQLException(e);
-            }
-            connect = (Connection) DriverManager
-  			      .getConnection("jdbc:mysql://127.0.0.1:3306/userdb?"
-  			          + "useSSL=false&user=" + username + "&password=" + password);
-            System.out.println(connect);
-        }
-    }
     
     public List<user> listAllUsers() throws SQLException {
         List<user> listUser = new ArrayList<user>();        
-        String sql = "SELECT * FROM User";      
-        connect_func();      
+        String sql = "SELECT * FROM User";   
         statement = (Statement) connect.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
          
@@ -106,18 +64,12 @@ public class userDAO
             
         }        
         resultSet.close();
-        disconnect();        
+        
+                
         return listUser;
     }
     
-    protected void disconnect() throws SQLException {
-        if (connect != null && !connect.isClosed()) {
-        	connect.close();
-        }
-    }
-    
     public void insert(user users) throws SQLException {
-    	connect_func("root","pass1234");         
 		String sql = "insert into User(email, firstName, lastName, password, birthday,adress_street_num, adress_street,adress_city,adress_state,adress_zip_code,credit,phone) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 			preparedStatement.setString(1, users.getEmail());
@@ -139,7 +91,6 @@ public class userDAO
     
     public boolean delete(String email) throws SQLException {
         String sql = "DELETE FROM User WHERE email = ?";        
-        connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, email);
@@ -150,8 +101,7 @@ public class userDAO
     }
      
     public boolean update(user users) throws SQLException {
-        String sql = "update User set firstName=?, lastName =?,password = ?,birthday=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, credit=?, phone=?, where email = ?";
-        connect_func();
+        String sql = "update User set firstName=?, lastName =?,password = ?,birthday=?,adress_street_num =?, adress_street=?,adress_city=?,adress_state=?,adress_zip_code=?, credit=?, phone=? where email = ?";
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, users.getEmail());
@@ -176,7 +126,6 @@ public class userDAO
     	user user = null;
         String sql = "SELECT * FROM User WHERE email = ?";
          
-        connect_func();
          
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, email);
@@ -207,7 +156,6 @@ public class userDAO
     public boolean checkEmail(String email) throws SQLException {
     	boolean checks = false;
     	String sql = "SELECT * FROM User WHERE email = ?";
-    	connect_func();
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, email);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -225,7 +173,6 @@ public class userDAO
     public boolean checkPassword(String password) throws SQLException {
     	boolean checks = false;
     	String sql = "SELECT * FROM User WHERE password = ?";
-    	connect_func();
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, password);
         ResultSet resultSet = preparedStatement.executeQuery();
@@ -245,7 +192,7 @@ public class userDAO
     public boolean isValid(String email, String password) throws SQLException
     {
     	String sql = "SELECT * FROM User";
-    	connect_func();
+    	
     	statement = (Statement) connect.createStatement();
     	ResultSet resultSet = statement.executeQuery(sql);
     	
@@ -266,7 +213,7 @@ public class userDAO
     
     
     public void init() throws SQLException, FileNotFoundException, IOException{
-    	connect_func();
+    	
         statement =  (Statement) connect.createStatement();
         
         String[] INITIAL = {"drop database if exists testdb; ",
@@ -284,22 +231,23 @@ public class userDAO
 					            "adress_city VARCHAR(20)," + 
 					            "adress_state VARCHAR(2),"+ 
 					            "adress_zip_code VARCHAR(5),"+ 
-					            "credit VARCHAR(16) NOT NULL," +
-					            "phone VARCHAR(10) NOT NULL," +
+					            "credit VARCHAR(19) NOT NULL," +
+					            "phone VARCHAR(12) NOT NULL," +
 					            "PRIMARY KEY (email) "+"); ")
+					        
         					};
         String[] TUPLES = {("insert into User(email, firstName, lastName, password, birthday, adress_street_num, adress_street, adress_city, adress_state, adress_zip_code, credit, phone)"+
         			"values ('susie@gmail.com', 'Susie', 'Guzman', 'susie1234', '2000-06-27', '1234', 'whatever street', 'detroit', 'MI', '48202','1234123412341234', '1231231234')," +
         					
-			    			"('j@gmail.com', 'john', 'smith', 'jsmith', '1999-09-09', '1234', 'main', 'new york', 'NY', '45678', '1029384756473828', '1023945867'),"+
+			    			"('j@gmail.com', 'john', 'smith', 'jsmith', '1999-09-09', '1234', 'main', 'new york', 'NY', '45678', '1029-3847-5647-3828', '102-394-5867'),"+
 			    			
-			    			"('rey@gmail.com', 'Rey', 'Jakosalem','rey123', '2002-06-07', '1000', 'hi street', 'mama', 'MO', '12345','1234567890123456', '5555555555'),"+
+			    			"('rey@gmail.com', 'Rey', 'Jakosalem','rey123', '2002-06-07', '1000', 'hi street', 'mama', 'MO', '12345','1234-5678-9012-3456', '555-555-5555'),"+
 			    			
-			    			"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','5000500050005000', '6966966969'),"+
+			    			"('margarita@gmail.com', 'Margarita', 'Lawson','margarita1234', '1980-02-02', '1234', 'ivan street', 'tata','CO','12561','5000-5000-5000-5000', '696-696-6969'),"+
 			    		 	
-			    			"('jo@gmail.com', 'Jo', 'Brady','jo1234', '2002-02-02', '3214','marko street', 'brat', 'DU', '54321','1890456387649872', '6748762890'),"+
+			    			"('jo@gmail.com', 'Jo', 'Brady','jo1234', '2002-02-02', '3214','marko street', 'brat', 'DU', '54321','1890-4563-8764-9872', '674-876-2890'),"+
 			    		 	
-			    			"('wallace@gmail.com', 'Wallace', 'Moore','wallace1234', '1971-06-15', '4500', 'frey street', 'sestra', 'MI', '48202','5736586746572869', '6563767849'),"+
+			    			"('wallace@gmail.com', 'Wallace', 'Moore','wallace1234', '1971-06-15', '4500', 'frey street', 'sestra', 'MI', '48202','5736-586746572869', '6563767849'),"+
 			    		 	
 			    			"('amelia@gmail.com', 'Amelia', 'Phillips','amelia1234', '2000-03-14', '1245', 'm8s street', 'baka', 'IL', '48000','4567890123456789', '6564656478'),"+
 			    			
@@ -321,7 +269,7 @@ public class userDAO
         	statement.execute(INITIAL[i]);
         for (int i = 0; i < TUPLES.length; i++)	
         	statement.execute(TUPLES[i]);
-        disconnect();
+        
     }
     
     
