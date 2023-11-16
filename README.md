@@ -21,7 +21,9 @@
 
 •	Add the downloaded zip folder to the Eclipse workspace
 
-•	Open all .jsp files to run it on web browser
+•	Run rootView.jsp to open the Root page and initialize the database
+
+•	Run either logout of the Root Page or run login.jsp to return to the login screen and start exploring the code from there
 
 # Project Parts and Contributions: 
 •	Rey:
@@ -32,6 +34,9 @@
 
     o	Modified with creating the root page and client page
 
+    o	Handled database connections and the control servlet
+
+
 •	Aleks:
 
     o	Completed GitHub setup 
@@ -39,6 +44,8 @@
     o	Created David Smith’s view page
 
     o	Assisted with creating the root page and client page
+
+    o   Created jsp files necessary for the front end of the project
 
 
 
