@@ -25,16 +25,9 @@
 
 •	Run either logout of the Root Page or run login.jsp to return to the login screen and start exploring the code from there
 
+•	Run from root page to quick links to view each SQL statement
+
 # Project Parts and Contributions: 
-•	Rey:
-
-    o	Created ER diagram and relational model
-
-    o	Created tuples and tables used in the code
-
-    o	Modified with creating the root page and client page
-
-    o	Handled database connections and the control servlet
 
 
 •	Aleks:
@@ -46,6 +39,10 @@
     o	Assisted with creating the root page and client page
 
     o   Created jsp files necessary for the front end of the project
+    
+     o Created all SQL Statements for project
+     
+     THIS PROJECT STARTING FROM PART 1 WAS DONE SOLELY BY ALEKSANDAR KOSTESKI
 
 
 
