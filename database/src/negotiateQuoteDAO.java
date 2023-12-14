@@ -147,9 +147,9 @@ public class negotiateQuoteDAO
 		        	"negotiateQID INTEGER NOT NULL AUTO_INCREMENT, " +
 		            "quoteID INTEGER NOT NULL, " +
 		        	"email VARCHAR(50) NOT NULL, " +
-		        	"price DECIMAL(7,2) DEFAULT 0, " +
-		            "start_time DATE DEFAULT '0001-01-01', " +
-		            "end_time DATE DEFAULT '0001-01-01', " +
+		        	"price DECIMAL(7,2) DEFAULT 20, " +
+		            "start_time DATE DEFAULT '2023-12-12', " +
+		            "end_time DATE DEFAULT '2023-12-15', " +
 		            "msg VARCHAR(500)," +
 		            "date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 		            "PRIMARY KEY (negotiateQID), " +
@@ -167,6 +167,7 @@ public class negotiateQuoteDAO
         			"(4, 'davidsmith@gmail.com', default, default, default, 'NO', default), " +
         			"(4, 'amelia@gmail.com', default, default, default, 'Please cut my trees!', default), " +
         			"(4, 'davidsmith@gmail.com', default, default, default, 'FINE! I will cut your trees', default), " +
+        			"(4, 'steve@gmail.com', default, default, default, 'Accepted', default), " +
         			"(4, 'amelia@gmail.com', default, default, default, 'Thank you!', default); ")
 			    			};
         

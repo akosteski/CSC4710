@@ -70,6 +70,7 @@ public class ControlServlet extends HttpServlet {
         		quoteDAO.init(); //quote table
         		treeDAO.init(); //tree table
         		negotiateQuoteDAO.init(); //this one's pretty self explanatory
+        		negotiateBillDao.init();
         		System.out.println("Database successfully initialized!");
         		rootPage(request,response,"initialize");
         		break;
