@@ -147,9 +147,9 @@ public class negotiateBillDAO
 		        	"negotiateBID INTEGER NOT NULL AUTO_INCREMENT, " +
 		            "orderID INTEGER NOT NULL, " +
 		        	"email VARCHAR(50) NOT NULL, " +
-		        	"price DECIMAL(7,2) DEFAULT 0, " +
-		            "start_time DATE DEFAULT '0001-01-01', " +
-		            "end_time DATE DEFAULT '0001-01-01', " +
+		        	"price DECIMAL(7,2) DEFAULT 20, " +
+		            "start_time DATE DEFAULT '2023-12-12', " +
+		            "end_time DATE DEFAULT '2023-12-15', " +
 		            "msg VARCHAR(500)," +
 		            "date TIMESTAMP DEFAULT CURRENT_TIMESTAMP, " +
 		            "PRIMARY KEY (negotiateBID), " +

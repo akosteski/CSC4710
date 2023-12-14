@@ -16,8 +16,9 @@
 		<input type = "submit" value = "Initialize the Database"/>
 	</form>
 	<a href="login.jsp"target ="_self" > logout</a><br><br> 
+	
 
-<h1>List all users</h1>
+<h1>Root Page</h1>
     <div align="center">
         <table border="1" cellpadding="6">
             <caption><h2>List of Users</h2></caption>
@@ -99,6 +100,28 @@
                 </tr>
             </c:forEach>
         </table>
+        
+        <table border="1" cellpadding="6">
+            <caption><h2>Statistics</h2></caption>
+            <tr>
+				<td><a href="BigClients.jsp"target ="_self" > Big Clients</a></td>
+				<td><a href="EasyClients.jsp"target ="_self" > Easy Clients</a></td>
+				<td><a href="OneTreeQuotes.jsp"target ="_self" > One Tree Quotes</a></td>
+            </tr>
+            <tr>
+				<td><a href="ProspectiveClients.jsp"target ="_self" > Prospective Clients</a></td>
+				<td><a href="HighestTree.jsp"target ="_self" > Highest Tree</a></td>
+				<td><a href="OverdueBills.jsp"target ="_self" > Overdue Bills</a></td>
+            </tr>
+            <tr>
+				<td><a href="BadClients.jsp"target ="_self" > Bad Clients</a></td>
+				<td><a href="GoodClients.jsp"target ="_self" > Good Clients</a></td>
+				<td><a href="Statistics.jsp"target ="_self" > Statistics</a></td>
+				
+            </tr>
+            </table>
+
+        
 	</div>
 	</div>
 

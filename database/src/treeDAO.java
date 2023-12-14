@@ -208,6 +208,21 @@ public class treeDAO
          
         return tree;
     } 
+   
+   public tree countTree(int MaxTree) throws SQLException {
+   	tree tree = null;
+   	String sql = "select MAX(height) from Tree";
+   			
+
+   	
+       preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+       preparedStatement.setInt(1, quoteID);
+                
+       preparedStatement.close();
+        
+       return tree;
+   } 
+   
     
     public void init() throws SQLException, FileNotFoundException, IOException{
     	
@@ -235,15 +250,15 @@ public class treeDAO
         					};
         String[] TUPLES = {("insert into Tree (treeID, quoteID, width, height, address, city, state, zipcode, distance, image1, image2, image3, notes, date) values" +
         					"(155, 1, 3.22, 55.55, '50334 Big Lane', 'Detroit', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Blah Blah Blue', '1999-04-12'), " +
-        					"(48, 2, 3.22, 55.55, '50334 Big Lane', 'New Baltimore', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Red Team Leader', '1999-04-12'), " +
-        					"(99, 3, 3.22, 55.55, '50334 Big Lane', 'Chicago', 'IL', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Going Going gone!', '1999-04-12'), " + 
-        					"(6, 4, 3.22, 55.55, '50334 Big Lane', 'London', 'OH', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'sdfghjk', '1999-04-12'), " +
-        					"(8, 5, 3.22, 55.55, '50334 Big Lane', 'Seattle', 'WA', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Waow', '2023-04-12'), " +
-        					"(7, 6, 3.22, 55.55, '50334 Big Lane', 'Spokane', 'WA', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Trees', '2002-07-10'), " +
-        					"(5, 7, 3.22, 55.55, '8955 Byron Street', 'Warren', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'We got this!', '2005-08-29'), " +
-        					"(3, 8, 3.22, 55.55, '17859 Small Lane', 'Ann Arbor', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Tree pics', '2009-02-15'), " +
-        					"(2, 9, 3.22, 55.55, '7869 Epic Drive', 'Clearwater', 'FL', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Many Trees', '2012-04-08'), " +
-        					"(56, 10, 3.22, 55.55, '34 Main', 'New York', 'NY', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Last PUsh!', '1973-06-16');")
+        					"(48, 2, 3.22, 75.55, '50334 Big Lane', 'New Baltimore', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Red Team Leader', '1999-04-12'), " +
+        					"(99, 3, 3.22, 95.55, '50334 Big Lane', 'Chicago', 'IL', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Going Going gone!', '1999-04-12'), " + 
+        					"(6, 4, 3.22, 155.55, '50334 Big Lane', 'London', 'OH', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'sdfghjk', '1999-04-12'), " +
+        					"(8, 5, 3.22, 255.55, '50334 Big Lane', 'Seattle', 'WA', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Waow', '2023-04-12'), " +
+        					"(7, 6, 3.22, 355.55, '50334 Big Lane', 'Spokane', 'WA', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Trees', '2002-07-10'), " +
+        					"(5, 7, 3.22, 455.55, '8955 Byron Street', 'Warren', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'We got this!', '2005-08-29'), " +
+        					"(3, 8, 3.22, 855.55, '17859 Small Lane', 'Ann Arbor', 'MI', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Tree pics', '2009-02-15'), " +
+        					"(2, 9, 3.22, 655.55, '7869 Epic Drive', 'Clearwater', 'FL', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Many Trees', '2012-04-08'), " +
+        					"(56, 10, 3.22, 755.55, '34 Main', 'New York', 'NY', '48752', 123.55, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSy2kn_BiOQWJVw0-8szYxQLgAiEtyNP7ZYfA&usqp=CAU', 'Last PUsh!', '1973-06-16');")
 			    			};
         
         //for loop to put these in database

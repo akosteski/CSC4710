@@ -228,11 +228,11 @@ public class quoteDAO
 					        ("CREATE TABLE if not exists Quote( " +
 					            "quoteID INTEGER NOT NULL AUTO_INCREMENT, " +
 					        	"tree_amt INTEGER DEFAULT 0, " +
-					        	"price DECIMAL(7,2) DEFAULT 0, " +
+					        	"price DECIMAL(7,2) DEFAULT 20, " +
 					        	"email VARCHAR(50) NOT NULL, " +
 					        	"contractor VARCHAR(50) DEFAULT 'davidsmith@gmail.com', " +
-					            "start_time DATE DEFAULT '0001-01-01', " +
-					            "end_time DATE DEFAULT '0001-01-01', " +
+					            "start_time DATE DEFAULT '2023-12-12', " +
+					            "end_time DATE DEFAULT '2023-12-15', " +
 					            "status VARCHAR(10) DEFAULT 'Pending', " +
 					            "PRIMARY KEY (quoteID), " +
 					            "FOREIGN KEY (email) REFERENCES User(email)," +
@@ -241,15 +241,18 @@ public class quoteDAO
         					};
         String[] TUPLES = {("insert into Quote(quoteID, tree_amt, price, start_time, end_time, status, email)" +
         					"values (1, default, default, '2023-10-10', '2023-10-11', default, 'rey@gmail.com'), " +
-        					"(2, default, default, '2023-11-15', '2023-12-01', default, 'j@gmail.com'), " +
-        					"(3, default, default, '2023-12-17', '2024-01-01', default, 'wallace@gmail.com'), " +
+        					"(2, 1, default, '2023-11-15', '2023-12-20', 'Rejected', 'j@gmail.com'), " +
+        					"(3, default, default, '2023-12-17', '2024-01-01', 'Confirmed', 'wallace@gmail.com'), " +
         					"(4, default, default, default, default, 'Rejected', 'amelia@gmail.com'), " +
-        					"(5, default, default, '2023-12-10', '2023-12-11', default, 'rey@gmail.com'), " +
-        					"(6, default, default, '2023-12-10', '2023-12-11', default, 'j@gmail.com'), " +
-        					"(7, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
-        					"(8, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(5, 1, default, '2023-12-10', '2023-12-11', 'Confirmed, 'rey@gmail.com'), " +
+        					"(6, 2, default, default, '2023-12-10', '2023-12-11', 'Confirmed', 'ja@gmail.com'), " +
+        					"(7, 5, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
+        					"(8, 1, default, '2023-12-10', '2023-12-11', 'Confirmed', 'wallace@gmail.com'), " +
         					"(9, default, default, '2023-12-10', '2023-12-11', default, 'wallace@gmail.com'), " +
-        					"(10, default, default, '2023-01-10', '2023-02-11', default, 'sophie@gmail.com');"
+        					"(10, default, default, '2023-01-10', '2023-02-11', default, 'sophie@gmail.com')," +
+        					"(11, 7, default, 2023-09-10, 2023-11-11, Paid, 'steve@gmail.com')," +
+        					"(12, 4, default, 2023-08-10, 2023-08-11, Confirmed, 'aleks@gmail.com'),";
+        				
         					
     		)
 		};
